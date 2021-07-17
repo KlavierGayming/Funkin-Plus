@@ -234,6 +234,7 @@ class Character extends FlxSprite
 				animation.addByPrefix('idle', "Pico Idle Dance", 24, false);
 				animation.addByPrefix('singUP', 'pico Up note0', 24, false);
 				animation.addByPrefix('singDOWN', 'Pico Down Note0', 24, false);
+				animation.addByPrefix('shoot', 'Pico Down Note0', 24, false);
 				if (isPlayer)
 				{
 					animation.addByPrefix('singLEFT', 'Pico NOTE LEFT0', 24, false);
@@ -251,6 +252,7 @@ class Character extends FlxSprite
 				}
 
 				animation.addByPrefix('singUPmiss', 'pico Up note miss', 24, false);
+				animation.addByPrefix('reload', 'pico Up note miss', 24, false);
 				animation.addByPrefix('singDOWNmiss', 'Pico Down Note MISS', 24, false);
 
 				addOffset('idle');
@@ -258,7 +260,9 @@ class Character extends FlxSprite
 				addOffset("singRIGHT", -85, -11);
 				addOffset("singLEFT", 54, 2);
 				addOffset("singDOWN", 198, -76);
+				addOffset("shoot", 198, -76);
 				addOffset("singUPmiss", -29, 67);
+				addOffset("reload", -29, 67);
 				addOffset("singRIGHTmiss", -70, 28);
 				addOffset("singLEFTmiss", 62, 50);
 				addOffset("singDOWNmiss", 200, -34);
