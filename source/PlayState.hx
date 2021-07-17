@@ -239,11 +239,11 @@ class PlayState extends MusicBeatState
 			bgHALLO.scale.set(1.9, 1.9);
 			bgHALLO.active = false;
 			switch (SONG.song.toLowerCase()){
-			    case 'south':
-		    	    bgHALLO.alpha = 0;
-		    	    bgHALLOend.alpha = 0;
-		    	case 'spookeez'
-		    	    bgHALLO.alpha = 1;
+				case 'south':
+					bgHALLO.alpha = 0;
+					bgHALLOend.alpha = 0;
+				case 'spookeez'
+					bgHALLO.alpha = 1;
 			}
 			add(bgHALLO);
 
@@ -2711,29 +2711,29 @@ class PlayState extends MusicBeatState
 								tmr.reset(0.1);
 							}
 							else{
-							    bgHALLOend.alpha = 1;
+								bgHALLOend.alpha = 1;
 							}
 						});
 					case 910:
 						new FlxTimer().start(0.1, function(tmr:FlxTimer){
-				        	bgHALLO.alpha -= 0.05;
-				        	if (bgHALLO.alpha != 0){
-				        	    tmr.reset(0.1);
-				        	}
-			        	});
+							bgHALLO.alpha -= 0.05;
+							if (bgHALLO.alpha != 0){
+								tmr.reset(0.1);
+							}
+						});
 				}
 				if (curStep % 4 == 0 && curStep > 100){
-				    newR = FlxG.random.int(0, 150);
-				    newB = FlxG.random.int(0, 150);
-				    newG = FlxG.random.int(0, 150);
-				    new FlxTimer().start(0.1, function(tmr:FlxTimer){
-				    	FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(20, 20, 20));
-			    	});
-				    new FlxTimer().start(0.5 function(tmr:FlxTimer){
-			    		oldR = newR;
-			    		oldG = newG;
-			    		oldB = newB;
-			    	});
+					newR = FlxG.random.int(0, 150);
+					newB = FlxG.random.int(0, 150);
+					newG = FlxG.random.int(0, 150);
+					new FlxTimer().start(0.1, function(tmr:FlxTimer){
+						FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(20, 20, 20));
+					});
+					new FlxTimer().start(0.5 function(tmr:FlxTimer){
+						oldR = newR;
+						oldG = newG;
+						oldB = newB;
+					});
 				}
 		}
 
