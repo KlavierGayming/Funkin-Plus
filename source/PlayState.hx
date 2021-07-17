@@ -3267,6 +3267,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function healthCheck(){
+		dad.playAnim('shoot', false);
 		health -= decrease;
 		switch (decrease){
 			case 1.1:
