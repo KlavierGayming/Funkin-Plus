@@ -2880,11 +2880,11 @@ class PlayState extends MusicBeatState
 		}
 
 		switch (SONG.song.toLowerCase()){
-		    case 'blammed':
-		        if (curStep > 128 && curStep < 384 && curBeat % 2 == 0){
-		            camHUD.zoom += 0.1;
-		            gf.playAnim('cheer', false);
-		        }
+			case 'blammed':
+				if (curStep > 128 && curStep < 384 && curBeat % 2 == 0){
+					camHUD.zoom += 0.1;
+					gf.playAnim('cheer', false);
+				}
 		}
 	}
 
