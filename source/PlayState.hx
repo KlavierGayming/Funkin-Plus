@@ -118,7 +118,7 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
-	var dialogue:Array<String> = ['strange code', '>:]'];
+	var dialogue:Array<String> = ['Minus is ass', 'Plus is cool >:)'];
 
 	var halloweenBG:FlxSprite;
 	var isHalloween:Bool = false;
@@ -216,7 +216,7 @@ class PlayState extends MusicBeatState
 			curStage = "spooky";
 			trace('song is ' + SONG.song);
 			//halloweenLevel = true;
-			bgHALLOend = new FlxSprite(-600, -200).loadGraphic('assets/images/halloweenbg.png');
+			bgHALLOend = new FlxSprite(-600, -200).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			trace('loaded png');
 			bgHALLOend.antialiasing = true;
 			bgHALLOend.scrollFactor.set(0.9, 0.9);
@@ -232,10 +232,11 @@ class PlayState extends MusicBeatState
 			halloweenBG.animation.play('idle');
 			halloweenBG.antialiasing = true;
 			add(halloweenBG);*/
-			bgHALLO = new FlxSprite(-200, -100).loadGraphic('assets/images/halloweenbg.png');
+			bgHALLO = new FlxSprite(500, 200).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			bgHALLO.antialiasing = true;
 			bgHALLO.scrollFactor.set(0.9, 0.9);
-			bgHALLO.setGraphicSize(Std.int(bgHALLO.width * 1.1));
+			//bgHALLO.setGraphicSize(Std.int(bgHALLO.width * 1.1));
+			bgHALLO.scale.set(2.2, 2.2);
 			bgHALLO.active = false;
 			switch (SONG.song.toLowerCase()){
 			    case 'south':
