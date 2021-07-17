@@ -126,6 +126,11 @@ class PlayState extends MusicBeatState
 	var phillyCityLights:FlxTypedGroup<FlxSprite>;
 	var phillyTrain:FlxSprite;
 	var trainSound:FlxSound;
+	var danger1:FlxSprite;
+	var danger2:FlxSprite;
+	var danger3:FlxSprite;
+	var danger4:FlxSprite;
+	var danger5:FlxSprite;
 
 	var limo:FlxSprite;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
@@ -2888,5 +2893,39 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	function notegun(?Note:Int = 1){
+		switch (Note){
+			case 1:
+				danger1 = new FlxSprite(boyfriend.x + FlxG.random.int(-90, 200), boyfriend.y - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger1.camera = [camHUD];
+				danger1.alpha = 0;
+				danger1.color = FlxColor.fromRGB();
+				add(danger1);
+				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+					danger1.alpha += 0.1;
+					if (danger1.alpha != 1){
+					    tmr.reset(0.02)
+					}
+				});
+				//var red:Bool = false;
+				var yellow:Bool = false;
+				var green:Bool = false;
+				new FlxTimer().start(0.3, function(tmr:FlxTimer){
+					if (!yellow && !green){
+				    	FlxTween.color(danger1, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+				    	yellow = true;
+				    	tmr.reset(0.3);
+					}
+					else if (yellow && !green){
+				    	FlxTween.color(danger1, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(247, 255, 3));
+				    	yellow = true;
+				    	tmr.reset(0.3);
+					}
+				});
+		}
+	}
+//red 232, 18, 2
+//yellow 247, 255, 3
+//green 13, 224, 45
 	var curLight:Int = 0;
 }
