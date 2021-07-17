@@ -3163,26 +3163,25 @@ class PlayState extends MusicBeatState
 				});
 		}
 	}
-
-	var spaceP:Bool = FlxG.keys.justPressed.SPACE;
+//FlxG.keys.pressed.SPACE
 	var decrease:Float = 0;
 	var alreadypressed:Bool = false;
 
 	function checkDodge(){
 		new FlxTimer().start(0.1, function(tmr:FlxTimer){
 			if (danger1o && !danger2o && !danger3o && !danger4o && !danger5o){
-				if (!alreadypressed && redcrap && spaceP){
+				if (!alreadypressed && redcrap && FlxG.keys.pressed.SPACE){
 					decrease = 1;
 					alreadypressed = true;
 					shitpopup('shit');
 					gf.playAnim('sad', false);
 				}
-				else if (!alreadypressed && spaceP && yellowcrap){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap){
 					decrease = 0.4;
 					alreadypressed = true;
 					shitpopup('good');
 				}
-				else if (!alreadypressed && spaceP && greencrap){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap){
 					decrease = 0;
 					alreadypressed = true;
 					shitpopup('sick');
@@ -3193,18 +3192,18 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else if (!danger1o && danger2o && !danger3o && !danger4o && !danger5o){
-				if (alreadypressed && redcrap2 && spaceP){
+				if (alreadypressed && redcrap2 && FlxG.keys.pressed.SPACE){
 					decrease = 1;
 					alreadypressed = true;
 					shitpopup('shit');
 					gf.playAnim('sad', false);
 				}
-				else if (!alreadypressed && spaceP && yellowcrap2){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap2){
 					decrease = 0.4;
 					alreadypressed = true;
 					shitpopup('good');
 				}
-				else if (!alreadypressed && spaceP && greencrap2){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap2){
 					decrease = 0;
 					alreadypressed = true;
 					shitpopup('sick');
@@ -3215,18 +3214,18 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else if (!danger1o && !danger2o && danger3o && !danger4o && !danger5o){
-				if (alreadypressed && redcrap3 && spaceP){
+				if (alreadypressed && redcrap3 && FlxG.keys.pressed.SPACE){
 					decrease = 1;
 					alreadypressed = true;
 					shitpopup('shit');
 					gf.playAnim('sad', false);
 				}
-				else if (!alreadypressed && spaceP && yellowcrap3){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap3){
 					decrease = 0.4;
 					alreadypressed = true;
 					shitpopup('good');
 				}
-				else if (!alreadypressed && spaceP && greencrap3){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap3){
 					decrease = 0;
 					alreadypressed = true;
 					shitpopup('sick');
@@ -3237,18 +3236,18 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else if (!danger1o && !danger2o && !danger3o && danger4o && !danger5o){
-				if (!alreadypressed && redcrap4 && spaceP){
+				if (!alreadypressed && redcrap4 && FlxG.keys.pressed.SPACE){
 					decrease = 1;
 					alreadypressed = true;
 					shitpopup('shit');
 					gf.playAnim('sad', false);
 				}
-				else if (!alreadypressed && spaceP && yellowcrap4){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap4){
 					decrease = 0.4;
 					alreadypressed = true;
 					shitpopup('good');
 				}
-				else if (!alreadypressed && spaceP && greencrap4){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap4){
 					decrease = 0;
 					alreadypressed = true;
 					shitpopup('sick');
@@ -3259,18 +3258,18 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else if (!danger1o && !danger2o && !danger3o && !danger4o && danger5o){
-				if (!alreadypressed && redcrap5 && spaceP){
+				if (!alreadypressed && redcrap5 && FlxG.keys.pressed.SPACE){
 					decrease = 1;
 					alreadypressed = true;
 					shitpopup('shit');
 					gf.playAnim('sad', false);
 				}
-				else if (!alreadypressed && spaceP && yellowcrap5){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap5){
 					decrease = 0.4;
 					alreadypressed = true;
 					shitpopup('good');
 				}
-				else if (!alreadypressed && spaceP && greencrap5){
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap5){
 					decrease = 0;
 					alreadypressed = true;
 					shitpopup('sick');
