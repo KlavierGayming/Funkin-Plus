@@ -3153,6 +3153,7 @@ class PlayState extends MusicBeatState
 				else{
 					decrease = 1.1;
 				}
+			}
 			else if (!danger1o && danger2o && !danger3o && !danger4o && !danger5o){
 				if (alreadypressed && redcrap2 && spaceP){
 					decrease = 1;
