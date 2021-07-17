@@ -216,11 +216,12 @@ class PlayState extends MusicBeatState
 			curStage = "spooky";
 			trace('song is ' + SONG.song);
 			//halloweenLevel = true;
-			bgHALLOend = new FlxSprite(-600, -200).loadGraphic('assets/images/betastuff/halloweenbg.png');
+			bgHALLOend = new FlxSprite(360, 150).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			trace('loaded png');
 			bgHALLOend.antialiasing = true;
 			bgHALLOend.scrollFactor.set(0.9, 0.9);
-			bgHALLOend.setGraphicSize(Std.int(bgHALLOend.width * 1.9));
+			//bgHALLOend.setGraphicSize(Std.int(bgHALLOend.width * 1.9));
+			bgHALLOend.scale.set(1.9, 1.9);
 			bgHALLOend.active = false;
 			add(bgHALLOend);
 			/*var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
@@ -232,7 +233,7 @@ class PlayState extends MusicBeatState
 			halloweenBG.animation.play('idle');
 			halloweenBG.antialiasing = true;
 			add(halloweenBG);*/
-			bgHALLO = new FlxSprite(500, 200).loadGraphic('assets/images/betastuff/halloweenbg.png');
+			bgHALLO = new FlxSprite(360, 150).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			bgHALLO.antialiasing = true;
 			bgHALLO.scrollFactor.set(0.9, 0.9);
 			//bgHALLO.setGraphicSize(Std.int(bgHALLO.width * 1.1));
@@ -2651,6 +2652,7 @@ class PlayState extends MusicBeatState
 
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
+		FlxG.camera.shake(0.02, 0.1);
 
 		boyfriend.playAnim('scared', true);
 		gf.playAnim('scared', true);
@@ -2722,19 +2724,21 @@ class PlayState extends MusicBeatState
 							}
 						});
 				}
-				if (curStep % 4 == 0 && curStep > 100){
-					newR = FlxG.random.int(0, 150);
-					newB = FlxG.random.int(0, 150);
-					newG = FlxG.random.int(0, 150);
-					new FlxTimer().start(0.1, function(tmr:FlxTimer){
-						FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(20, 20, 20));
-					});
-					new FlxTimer().start(0.5, function(tmr:FlxTimer){
-						oldR = newR;
-						oldG = newG;
-						oldB = newB;
-					});
-				}
+		}
+		if (SONG.song.toLowerCase() == 'spookeez' || SONG.song.toLowerCase() == 'south'){
+			if (curStep % 16 == 0 && curStep > 100){
+				newR = FlxG.random.int(0, 150);
+				newB = FlxG.random.int(0, 150);
+				newG = FlxG.random.int(0, 150);
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
+					FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(20, 20, 120));
+				});
+				new FlxTimer().start(0.5, function(tmr:FlxTimer){
+					oldR = newR;
+					oldG = newG;
+					oldB = newB;
+				});
+			}
 		}
 
 		super.stepHit();
@@ -2742,7 +2746,7 @@ class PlayState extends MusicBeatState
 
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
-
+//128 384
 	override function beatHit()
 	{
 		wiggleShit.update(Conductor.crochet);
@@ -2869,11 +2873,19 @@ class PlayState extends MusicBeatState
 				}
 		}
 
-		/*if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
+		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
 		{
 			lightningStrikeShit();
 			
-		}*/
+		}
+
+		switch (SONG.song.toLowerCase()){
+		    case 'blammed':
+		        if (curStep > 128 && curStep < 384 && curBeat % 2 == 0){
+		            camHUD.zoom += 0.1;
+		            gf.playAnim('cheer', false);
+		        }
+		}
 	}
 
 	var curLight:Int = 0;
