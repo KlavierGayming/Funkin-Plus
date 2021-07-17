@@ -2729,7 +2729,7 @@ class PlayState extends MusicBeatState
 					new FlxTimer().start(0.1, function(tmr:FlxTimer){
 						FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(20, 20, 20));
 					});
-					new FlxTimer().start(0.5 function(tmr:FlxTimer){
+					new FlxTimer().start(0.5, function(tmr:FlxTimer){
 						oldR = newR;
 						oldG = newG;
 						oldB = newB;
