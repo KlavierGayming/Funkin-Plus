@@ -2729,6 +2729,44 @@ class PlayState extends MusicBeatState
 							}
 						});
 				}
+			case 'blammed':
+				//blammed song events
+				switch (curStep){
+				    case 117:
+				        notegun(1);
+				    case 374:
+				        notegun(1);
+				    case 379:
+				        reload();
+				    case 501:
+				        notegun(1);
+				    case 522:
+				        notegun(2);
+				    case 535:
+				        notegun(3);
+				    case 539:
+				        notegun(1);
+				    case 546:
+				        notegun(4);
+				    case 553:
+				        notegun(2);
+				    case 757:
+				        notegun(1);
+				    case 788:
+				        notegun(2);
+				    case 832:
+				        notegun(1);
+				    case 853:
+				        notegun(2);
+				    case 885:
+				        notegun(1);
+				    case 1171:
+				        notegun(1);
+				    case 504:
+				        reload();
+				    case 760:
+				        reload();
+				}
 		}
 		if (SONG.song.toLowerCase() == 'spookeez' || SONG.song.toLowerCase() == 'south'){
 			if (curStep % 16 == 0 && curStep > 100){
@@ -2919,7 +2957,7 @@ class PlayState extends MusicBeatState
 		}
 		switch (Note){
 			case 1:
-				danger1 = new FlxSprite(boyfriend.x + FlxG.random.int(-90, 200), boyfriend.y - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger1 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger1.cameras = [camHUD];
 				danger1.alpha = 0;
 				danger1.color = FlxColor.fromRGB(232, 18, 2);
@@ -2960,7 +2998,7 @@ class PlayState extends MusicBeatState
 					}
 				});
 			case 2:
-				danger2 = new FlxSprite(boyfriend.x + FlxG.random.int(-90, 200), boyfriend.y - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger2 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger2.cameras = [camHUD];
 				danger2.alpha = 0;
 				danger2.color = FlxColor.fromRGB(232, 18, 2);
@@ -3001,7 +3039,7 @@ class PlayState extends MusicBeatState
 					}
 				});
 			case 3:
-				danger3 = new FlxSprite(boyfriend.x + FlxG.random.int(-90, 200), boyfriend.y - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger3 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger3.cameras = [camHUD];
 				danger3.alpha = 0;
 				danger3.color = FlxColor.fromRGB(232, 18, 2);
@@ -3042,7 +3080,7 @@ class PlayState extends MusicBeatState
 					}
 				});
 			case 4:
-				danger4 = new FlxSprite(boyfriend.x + FlxG.random.int(-90, 200), boyfriend.y - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger4 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger4.cameras = [camHUD];
 				danger4.alpha = 0;
 				danger4.color = FlxColor.fromRGB(232, 18, 2);
@@ -3083,7 +3121,7 @@ class PlayState extends MusicBeatState
 					}
 				});
 			case 5:
-				danger5 = new FlxSprite(boyfriend.x + FlxG.random.int(-90, 200), boyfriend.y - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger5 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger5.cameras = [camHUD];
 				danger5.alpha = 0;
 				danger5.color = FlxColor.fromRGB(232, 18, 2);
@@ -3242,6 +3280,7 @@ class PlayState extends MusicBeatState
 					decrease = 1.1;
 				}
 			}
+			tmr.reset(0.1);
 		});
 	}
 	function shitpopup(crap:String){
@@ -3291,7 +3330,13 @@ class PlayState extends MusicBeatState
 				});
 		}
 	}
-	
+	function reload(){
+	    dad.playAnim('reload', false);
+        defaultCamZoom -= 0.1;
+        new FlxTimer().start(0.5, function(e:FlxTimer){
+            defaultCamZoom += 0.1;
+		});
+	}
 //red 232, 18, 2
 //yellow 247, 255, 3
 //green 13, 224, 45
