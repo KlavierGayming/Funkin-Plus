@@ -118,7 +118,7 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
-	var dialogue:Array<String> = ['strange code', '>:]'];
+	var dialogue:Array<String> = ['Minus is ass', 'Plus is cool >:)'];
 
 	var halloweenBG:FlxSprite;
 	var isHalloween:Bool = false;
@@ -214,11 +214,13 @@ class PlayState extends MusicBeatState
 		if (spookySongs.contains(SONG.song.toLowerCase()))
 		{
 			curStage = "spooky";
-			halloweenLevel = true;
+			trace('song is ' + SONG.song);
+			//halloweenLevel = true;
 			bgHALLOend = new FlxSprite(-600, -200).loadGraphic('assets/images/betastuff/halloweenbg.png');
+			trace('loaded png');
 			bgHALLOend.antialiasing = true;
 			bgHALLOend.scrollFactor.set(0.9, 0.9);
-			bgHALLOend.setGraphicSize(Std.int(bgHALLO.width * 1.1));
+			bgHALLOend.setGraphicSize(Std.int(bgHALLOend.width * 1.9));
 			bgHALLOend.active = false;
 			add(bgHALLOend);
 			/*var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
@@ -230,20 +232,22 @@ class PlayState extends MusicBeatState
 			halloweenBG.animation.play('idle');
 			halloweenBG.antialiasing = true;
 			add(halloweenBG);*/
-			bgHALLO = new FlxSprite(-600, -200).loadGraphic('assets/images/betastuff/halloweenbg.png');
+			bgHALLO = new FlxSprite(500, 200).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			bgHALLO.antialiasing = true;
 			bgHALLO.scrollFactor.set(0.9, 0.9);
-			bgHALLO.setGraphicSize(Std.int(bgHALLO.width * 1.1));
+			//bgHALLO.setGraphicSize(Std.int(bgHALLO.width * 1.1));
+			bgHALLO.scale.set(1.9, 1.9);
 			bgHALLO.active = false;
 			switch (SONG.song.toLowerCase()){
-			    case 'south':
-		    	    bgHALLO.alpha = 0;
-		    	case 'spookeez':
-		    	    bgHALLO.alpha = 1;
+				case 'south':
+					bgHALLO.alpha = 0;
+					bgHALLOend.alpha = 0;
+				case 'spookeez':
+					bgHALLO.alpha = 1;
 			}
 			add(bgHALLO);
 
-			isHalloween = true;
+			//isHalloween = true;
 		}
 		else if (phillySongs.contains(SONG.song.toLowerCase()))
 		{
@@ -605,11 +609,6 @@ class PlayState extends MusicBeatState
 		gf.scrollFactor.set(0.95, 0.95);
 
 		dad = new Character(100, 100, SONG.player2);
-		if (SONG.song.toLowerCase() == 'south'){
-			dad.alpha = 0;
-			boyfriend.alpha = 0;
-			gf.alpha = 0;
-		}
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
@@ -652,6 +651,11 @@ class PlayState extends MusicBeatState
 		}
 
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
+		if (SONG.song.toLowerCase() == 'south'){
+			dad.alpha = 0;
+			boyfriend.alpha = 0;
+			gf.alpha = 0;
+		}
 
 		// REPOSITIONING PER STAGE
 		switch (curStage)
@@ -2643,7 +2647,7 @@ class PlayState extends MusicBeatState
 	function lightningStrikeShit():Void
 	{
 		FlxG.sound.play('assets/sounds/thunder_' + FlxG.random.int(1, 2) + TitleState.soundExt);
-		halloweenBG.animation.play('lightning');
+		//halloweenBG.animation.play('lightning');
 
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
@@ -2706,27 +2710,30 @@ class PlayState extends MusicBeatState
 							if (bgHALLO.alpha != 1){
 								tmr.reset(0.1);
 							}
+							else{
+								bgHALLOend.alpha = 1;
+							}
 						});
 					case 910:
 						new FlxTimer().start(0.1, function(tmr:FlxTimer){
-				        	bgHALLO.alpha -= 0.05;
-				        	if (bgHALLO.alpha != 0){
-				        	    tmr.reset(0.1);
-				        	}
-			        	});
+							bgHALLO.alpha -= 0.05;
+							if (bgHALLO.alpha != 0){
+								tmr.reset(0.1);
+							}
+						});
 				}
 				if (curStep % 4 == 0 && curStep > 100){
-				    newR = FlxG.random.int(0, 150);
-				    newB = FlxG.random.int(0, 150);
-				    newG = FlxG.random.int(0, 150);
-				    new FlxTimer().start(0.1, function(tmr:FlxTimer){
-				    	FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(0, 0, 0));
-			    	});
-				    new FlxTimer().start(0.5, function(tmr:FlxTimer){
-			    		oldR = newR;
-			    		oldG = newG;
-			    		oldB = newB;
-			    	});
+					newR = FlxG.random.int(0, 150);
+					newB = FlxG.random.int(0, 150);
+					newG = FlxG.random.int(0, 150);
+					new FlxTimer().start(0.1, function(tmr:FlxTimer){
+						FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(20, 20, 20));
+					});
+					new FlxTimer().start(0.5, function(tmr:FlxTimer){
+						oldR = newR;
+						oldG = newG;
+						oldB = newB;
+					});
 				}
 		}
 
@@ -2862,11 +2869,11 @@ class PlayState extends MusicBeatState
 				}
 		}
 
-		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
+		/*if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
 		{
-			//lightningStrikeShit();
+			lightningStrikeShit();
 			
-		}
+		}*/
 	}
 
 	var curLight:Int = 0;
