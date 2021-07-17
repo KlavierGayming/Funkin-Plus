@@ -236,7 +236,7 @@ class PlayState extends MusicBeatState
 			bgHALLO.antialiasing = true;
 			bgHALLO.scrollFactor.set(0.9, 0.9);
 			//bgHALLO.setGraphicSize(Std.int(bgHALLO.width * 1.1));
-			bgHALLO.scale.set(2.2, 2.2);
+			bgHALLO.scale.set(1.9, 1.9);
 			bgHALLO.active = false;
 			switch (SONG.song.toLowerCase()){
 			    case 'south':
