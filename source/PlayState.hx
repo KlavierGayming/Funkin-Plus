@@ -2893,29 +2893,29 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-    var checkin:Bool = false;
-    var danger1o:Bool = false;
-    var danger2o:Bool = false;
-    var danger3o:Bool = false;
-    var danger4o:Bool = false;
-    var danger5o:Bool = false;
-    var redcrap:Bool = false;
-    var yellowcrap:Bool = false;
-    var greencrap:Bool = false;
-    var redcrap2:Bool = false;
-    var yellowcrap2:Bool = false;
-    var greencrap2:Bool = false;
-    var redcrap3:Bool = false;
-    var yellowcrap3:Bool = false;
-    var greencrap3:Bool = false;
-    var redcrap4:Bool = false;
-    var yellowcrap4:Bool = false;
-    var greencrap4:Bool = false;
+	var checkin:Bool = false;
+	var danger1o:Bool = false;
+	var danger2o:Bool = false;
+	var danger3o:Bool = false;
+	var danger4o:Bool = false;
+	var danger5o:Bool = false;
+	var redcrap:Bool = false;
+	var yellowcrap:Bool = false;
+	var greencrap:Bool = false;
+	var redcrap2:Bool = false;
+	var yellowcrap2:Bool = false;
+	var greencrap2:Bool = false;
+	var redcrap3:Bool = false;
+	var yellowcrap3:Bool = false;
+	var greencrap3:Bool = false;
+	var redcrap4:Bool = false;
+	var yellowcrap4:Bool = false;
+	var greencrap4:Bool = false;
 
 	function notegun(?Note:Int = 1){
 		if (!checkin){
-		    checkin = true;
-		    checkDodge();
+			checkin = true;
+			checkDodge();
 		}
 		switch (Note){
 			case 1:
@@ -2931,7 +2931,7 @@ class PlayState extends MusicBeatState
 						tmr.reset(0.02);
 					}
 					else{
-					    danger1o = true;
+						danger1o = true;
 					}
 				});
 				//var red:Bool = false;
@@ -2972,7 +2972,7 @@ class PlayState extends MusicBeatState
 						tmr.reset(0.02);
 					}
 					else{
-					    danger2o = true;
+						danger2o = true;
 					}
 				});
 				//var red:Bool = false;
@@ -3013,7 +3013,7 @@ class PlayState extends MusicBeatState
 						tmr.reset(0.02);
 					}
 					else{
-					    danger3o = true;
+						danger3o = true;
 					}
 				});
 				//var red:Bool = false;
@@ -3054,7 +3054,7 @@ class PlayState extends MusicBeatState
 						tmr.reset(0.02);
 					}
 					else{
-					    danger4o = true;
+						danger4o = true;
 					}
 				});
 				//var red:Bool = false;
@@ -3095,7 +3095,7 @@ class PlayState extends MusicBeatState
 						tmr.reset(0.02);
 					}
 					else{
-					    danger5o = true;
+						danger5o = true;
 					}
 				});
 				//var red:Bool = false;
@@ -3131,128 +3131,128 @@ class PlayState extends MusicBeatState
 	var alreadypressed:Bool = false;
 
 	function checkDodge(){
-	    new FlxTimer().start(0.1, function(tmr:FlxTimer){
+		new FlxTimer().start(0.1, function(tmr:FlxTimer){
 			if (danger1o && !danger2o && !danger3o && !danger4o && !danger5o){
-			    if (!alreadypressed && redcrap && spaceP){
-			        decrease = 1;
-			        alreadypressed = true;
-			        shitpopup('shit');
-			        gf.playAnim('sad', false);
-			    }
-			    else if (!alreadypressed && spaceP && yellowcrap){
-			        decrease = 0.4;
-			        alreadypressed = true;
-			        shitpopup('good');
-			    }
-			    else if (!alreadypressed && spaceP && greencrap){
-			        decrease = 0;
-			        alreadypressed = true;
-			        shitpopup('sick');
-			        gf.playAnim('cheer', false);
-			    }
-			    else{
-			        decrease = 1.1;
-			    }
+				if (!alreadypressed && redcrap && spaceP){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && spaceP && yellowcrap){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && spaceP && greencrap){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
 			else if (!danger1o && danger2o && !danger3o && !danger4o && !danger5o){
-			    if (alreadypressed && redcrap2 && spaceP){
-			        decrease = 1;
-			        alreadypressed = true;
-			        shitpopup('shit');
-			        gf.playAnim('sad', false);
-			    }
-			    else if (!alreadypressed && spaceP && yellowcrap2){
-			        decrease = 0.4;
-			        alreadypressed = true;
-			        shitpopup('good');
-			    }
-			    else if (!alreadypressed && spaceP && greencrap2){
-			        decrease = 0;
-			        alreadypressed = true;
-			        shitpopup('sick');
-			        gf.playAnim('cheer', false);
-			    }
-			    else{
-			        decrease = 1.1;
-			    }
+				if (alreadypressed && redcrap2 && spaceP){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && spaceP && yellowcrap2){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && spaceP && greencrap2){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
 			}
 			else if (!danger1o && !danger2o && danger3o && !danger4o && !danger5o){
-			    if (alreadypressed && redcrap3 && spaceP){
-			        decrease = 1;
-			        alreadypressed = true;
-			        shitpopup('shit');
-			        gf.playAnim('sad', false);
-			    }
-			    else if (!alreadypressed && spaceP && yellowcrap3){
-			        decrease = 0.4;
-			        alreadypressed = true;
-			        shitpopup('good');
-			    }
-			    else if (!alreadypressed && spaceP && greencrap3){
-			        decrease = 0;
-			        alreadypressed = true;
-			        shitpopup('sick');
-			        gf.playAnim('cheer', false);
-			    }
-			    else{
-			        decrease = 1.1;
-			    }
+				if (alreadypressed && redcrap3 && spaceP){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && spaceP && yellowcrap3){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && spaceP && greencrap3){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
 			}
 			else if (!danger1o && !danger2o && !danger3o && danger4o && !danger5o){
-			    if (!alreadypressed && redcrap4 && spaceP){
-			        decrease = 1;
-			        alreadypressed = true;
-			        shitpopup('shit');
-			        gf.playAnim('sad', false);
-			    }
-			    else if (!alreadypressed && spaceP && yellowcrap4){
-			        decrease = 0.4;
-			        alreadypressed = true;
-			        shitpopup('good');
-			    }
-			    else if (!alreadypressed && spaceP && greencrap4){
-			        decrease = 0;
-			        alreadypressed = true;
-			        shitpopup('sick');
-			        gf.playAnim('cheer', false);
-			    }
-			    else{
-			        decrease = 1.1;
-			    }
+				if (!alreadypressed && redcrap4 && spaceP){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && spaceP && yellowcrap4){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && spaceP && greencrap4){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
 			}
 			else if (!danger1o && !danger2o && !danger3o && !danger4o && danger5o){
-			    if (!alreadypressed && redcrap5 && spaceP){
-			        decrease = 1;
-			        alreadypressed = true;
-			        shitpopup('shit');
-			        gf.playAnim('sad', false);
-			    }
-			    else if (!alreadypressed && spaceP && yellowcrap5){
-			        decrease = 0.4;
-			        alreadypressed = true;
-			        shitpopup('good');
-			    }
-			    else if (!alreadypressed && spaceP && greencrap5){
-			        decrease = 0;
-			        alreadypressed = true;
-			        shitpopup('sick');
-			        gf.playAnim('cheer', false);
-			    }
-			    else{
-			        decrease = 1.1;
-			    }
+				if (!alreadypressed && redcrap5 && spaceP){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && spaceP && yellowcrap5){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && spaceP && greencrap5){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
 			}
 		});
 	}
 	function shitpopup(crap:String){
-	    var rating:FlxSprite = new FlxSprite();
+		var rating:FlxSprite = new FlxSprite();
 		rating.loadGraphic('assets/images/' + crap + ".png");
 		switch (crap){
-		    case 'shit':
-	    	    rating.color = FlxColor.fromRGB(232, 18, 2);
-	    	case 'good':
-	    	    rating.color = FlxColor.fromRGB(247, 255, 3);
-	    	case 'sick':
-	    	    rating.color = FlxColor.fromRGB(13, 224, 45);
+			case 'shit':
+				rating.color = FlxColor.fromRGB(232, 18, 2);
+			case 'good':
+				rating.color = FlxColor.fromRGB(247, 255, 3);
+			case 'sick':
+				rating.color = FlxColor.fromRGB(13, 224, 45);
 		}
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
@@ -3267,19 +3267,27 @@ class PlayState extends MusicBeatState
 	}
 
 	function healthCheck(){
-	    health -= decrease;
-	    switch (decrease){
-	        case 1.1:
-	            boyfriend.playAnim('shot', false);
-	            gf.playAnim('scared', false);
-	        case 1:
-	            boyfriend.playAnim('shot', false);
-	            gf.playAnim('scared', false);
-	        case 0.4:
-	            boyfriend.playAnim('dodge', false);
-	            gf.playAnim('scared', false);
-	            
-	    }
+		health -= decrease;
+		switch (decrease){
+			case 1.1:
+				boyfriend.playAnim('shot', false);
+				gf.playAnim('scared', false);
+			case 1:
+				boyfriend.playAnim('shot', false);
+				gf.playAnim('scared', false);
+			case 0.4:
+				boyfriend.playAnim('dodge', false);
+				gf.playAnim('scared', false);
+				new FlxTimer().start(1, function(e:FlxTimer){
+					boyfriend.playAnim('scared', false);
+				});
+			default:
+				boyfriend.playAnim('dodge', false);
+				gf.playAnim('cheer', false);
+				new FlxTimer().start(1, function(e:FlxTimer){
+					boyfriend.playAnim('hey', false);
+				});
+		}
 	}
 	
 //red 232, 18, 2
