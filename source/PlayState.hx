@@ -2975,7 +2975,7 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
-				new FlxTimer().start(0.3, function(tmr:FlxTimer){
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger1, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
@@ -2988,7 +2988,7 @@ class PlayState extends MusicBeatState
 						green = true;
 						yellowcrap = false;
 						greencrap = true;
-						tmr.reset(0.1);
+						tmr.reset(0.3);
 					}
 					else{
 						remove(danger1);
@@ -3016,7 +3016,7 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
-				new FlxTimer().start(0.3, function(tmr:FlxTimer){
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger2, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
@@ -3029,7 +3029,7 @@ class PlayState extends MusicBeatState
 						green = true;
 						yellowcrap2 = false;
 						greencrap2 = true;
-						tmr.reset(0.1);
+						tmr.reset(0.3);
 					}
 					else{
 						remove(danger2);
@@ -3057,7 +3057,7 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
-				new FlxTimer().start(0.3, function(tmr:FlxTimer){
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger3, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
@@ -3070,7 +3070,7 @@ class PlayState extends MusicBeatState
 						green = true;
 						greencrap3 = true;
 						yellowcrap3 = false;
-						tmr.reset(0.1);
+						tmr.reset(0.3);
 					}
 					else{
 						remove(danger3);
@@ -3098,7 +3098,7 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
-				new FlxTimer().start(0.3, function(tmr:FlxTimer){
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger4, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
@@ -3111,7 +3111,7 @@ class PlayState extends MusicBeatState
 						green = true;
 						yellowcrap4 = false;
 						greencrap4 = true;
-						tmr.reset(0.1);
+						tmr.reset(0.3);
 					}
 					else{
 						remove(danger4);
@@ -3139,7 +3139,7 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
-				new FlxTimer().start(0.3, function(tmr:FlxTimer){
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger5, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
@@ -3152,7 +3152,7 @@ class PlayState extends MusicBeatState
 						green = true;
 						yellowcrap5 = false;
 						greencrap5 = true;
-						tmr.reset(0.1);
+						tmr.reset(0.3);
 					}
 					else{
 						remove(danger5);
