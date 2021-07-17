@@ -2904,7 +2904,7 @@ class PlayState extends MusicBeatState
 				new FlxTimer().start(0.02, function(tmr:FlxTimer){
 					danger1.alpha += 0.1;
 					if (danger1.alpha != 1){
-					    tmr.reset(0.02)
+						tmr.reset(0.02)
 					}
 				});
 				//var red:Bool = false;
@@ -2912,14 +2912,18 @@ class PlayState extends MusicBeatState
 				var green:Bool = false;
 				new FlxTimer().start(0.3, function(tmr:FlxTimer){
 					if (!yellow && !green){
-				    	FlxTween.color(danger1, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
-				    	yellow = true;
-				    	tmr.reset(0.3);
+						FlxTween.color(danger1, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						yellow = true;
+						tmr.reset(0.3);
 					}
 					else if (yellow && !green){
-				    	FlxTween.color(danger1, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(247, 255, 3));
-				    	yellow = true;
-				    	tmr.reset(0.3);
+						FlxTween.color(danger1, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						green = true;
+						tmr.reset(0.1);
+					}
+					else{
+						remove(danger1);
+						
 					}
 				});
 		}
