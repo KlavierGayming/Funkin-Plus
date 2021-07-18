@@ -2942,6 +2942,8 @@ class PlayState extends MusicBeatState
 	var redcrap5:Bool = false;
 	var greencrap5:Bool = false;
 	var yellowcrap5:Bool = false;
+	var decrease:Float = 0;
+	var alreadypressed:Bool = false;
 
 	function notegun(?Note:Int = 1){
 		if (!checkin){
@@ -2952,14 +2954,14 @@ class PlayState extends MusicBeatState
 			case 1:
 				danger1 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger1.cameras = [camHUD];
-				danger1.alpha = 0;
+				danger1.alpha = 0.1;
 				danger1.color = FlxColor.fromRGB(232, 18, 2);
 				redcrap = true;
 				add(danger1);
-				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+				new FlxTimer().start(0.05, function(tmr:FlxTimer){
 					danger1.alpha += 0.1;
-					if (danger1.alpha != 1){
-						tmr.reset(0.02);
+					if (danger1.alpha != 0.7){
+						tmr.reset(0.05);
 					}
 					else{
 						danger1o = true;
@@ -2968,41 +2970,43 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
+				var MORESHIT:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
-						FlxTween.color(danger1, 0.1, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						FlxTween.color(danger1, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
 						redcrap = false;
 						yellowcrap = true;
-						tmr.reset(0.3);
+						tmr.reset(1);
 					}
 					else if (yellow && !green){
-						FlxTween.color(danger1, 0.1, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						FlxTween.color(danger1, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap = false;
 						greencrap = true;
-						tmr.reset(0.3);
+						tmr.reset(1);
+						MORESHIT = true;
 					}
-					/*if (alreadypressed){
+					if (!alreadypressed && MORESHIT){
 						remove(danger1);
-						danger1o = false;
+						decrease = 0.7;
+						healthCheck();
 						greencrap = false;
 						yellowcrap = false;
-						redcrap = false;
-						healthCheck();
-					}*/
+						danger1o = false;
+					}
 				});
 			case 2:
 				danger2 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger2.cameras = [camHUD];
-				danger2.alpha = 0;
+				danger2.alpha = 0.1;
 				danger2.color = FlxColor.fromRGB(232, 18, 2);
 				redcrap2 = true;
 				add(danger2);
-				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+				new FlxTimer().start(0.05, function(tmr:FlxTimer){
 					danger2.alpha += 0.1;
-					if (danger2.alpha != 1){
-						tmr.reset(0.02);
+					if (danger2.alpha != 0.7){
+						tmr.reset(0.05);
 					}
 					else{
 						danger2o = true;
@@ -3011,39 +3015,43 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
+				var MORESHIT:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
-						FlxTween.color(danger2, 0.1, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						FlxTween.color(danger2, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
 						redcrap2 = false;
 						yellowcrap2 = true;
-						tmr.reset(0.3);
+						tmr.reset(1);
 					}
 					else if (yellow && !green){
-						FlxTween.color(danger2, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						FlxTween.color(danger2, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap2 = false;
 						greencrap2 = true;
-						tmr.reset(0.3);
+						tmr.reset(1);
+						MORESHIT = true;
 					}
-					else{
+					if (!alreadypressed && MORESHIT){
 						remove(danger2);
-						danger2o = false;
-						greencrap2 = false;
+						decrease = 0.7;
 						healthCheck();
+						greencrap2 = false;
+						yellowcrap2 = false;
+						danger2o = false;
 					}
 				});
 			case 3:
 				danger3 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger3.cameras = [camHUD];
-				danger3.alpha = 0;
+				danger3.alpha = 0.1;
 				danger3.color = FlxColor.fromRGB(232, 18, 2);
 				redcrap3 = true;
 				add(danger3);
-				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+				new FlxTimer().start(0.05, function(tmr:FlxTimer){
 					danger3.alpha += 0.1;
-					if (danger3.alpha != 1){
-						tmr.reset(0.02);
+					if (danger3.alpha != 0.7){
+						tmr.reset(0.05);
 					}
 					else{
 						danger3o = true;
@@ -3052,26 +3060,30 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
+				var MORESHIT:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
-						FlxTween.color(danger3, 0.1, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						FlxTween.color(danger3, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
-						yellowcrap3 = true;
 						redcrap3 = false;
-						tmr.reset(0.3);
+						yellowcrap3 = true;
+						tmr.reset(1);
 					}
 					else if (yellow && !green){
-						FlxTween.color(danger3, 0.1, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						FlxTween.color(danger3, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
-						greencrap3 = true;
 						yellowcrap3 = false;
-						tmr.reset(0.3);
+						greencrap3 = true;
+						tmr.reset(1);
+						MORESHIT = true;
 					}
-					else{
+					if (!alreadypressed && MORESHIT){
 						remove(danger3);
-						danger3o = false;
-						greencrap3 = false;
+						decrease = 0.7;
 						healthCheck();
+						greencrap3 = false;
+						yellowcrap3 = false;
+						danger3o = false;
 					}
 				});
 			case 4:
@@ -3159,8 +3171,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 //FlxG.keys.pressed.SPACE
-	var decrease:Float = 0;
-	var alreadypressed:Bool = false;
 
 	function checkDodge(){
 		new FlxTimer().start(0.1, function(tmr:FlxTimer){
@@ -3185,11 +3195,6 @@ class PlayState extends MusicBeatState
 					shitpopup('sick');
 					//gf.playAnim('cheer', false);
 					trace('pressed at green');
-				}
-				else{
-					trace('didnt press.');
-					decrease = 0.7;
-					shitpopup('shit');
 				}
 				if (alreadypressed){
 					remove(danger1);
