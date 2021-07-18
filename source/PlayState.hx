@@ -221,7 +221,7 @@ class PlayState extends MusicBeatState
 			curStage = "spooky";
 			trace('song is ' + SONG.song);
 			//halloweenLevel = true;
-			bgHALLOend = new FlxSprite(320, 140).loadGraphic('assets/images/betastuff/halloweenbg.png');
+			bgHALLOend = new FlxSprite(305, 140).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			trace('loaded png');
 			bgHALLOend.antialiasing = true;
 			bgHALLOend.scrollFactor.set(0.9, 0.9);
@@ -229,16 +229,8 @@ class PlayState extends MusicBeatState
 			bgHALLOend.scale.set(1.9, 1.9);
 			bgHALLOend.active = false;
 			add(bgHALLOend);
-			/*var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
 
-			halloweenBG = new FlxSprite(-200, -100);
-			halloweenBG.frames = hallowTex;
-			halloweenBG.animation.addByPrefix('idle', 'halloweem bg0');
-			halloweenBG.animation.addByPrefix('lightning', 'halloweem bg lightning strike', 24, false);
-			halloweenBG.animation.play('idle');
-			halloweenBG.antialiasing = true;
-			add(halloweenBG);*/
-			bgHALLO = new FlxSprite(320, 140).loadGraphic('assets/images/betastuff/halloweenbg.png');
+			bgHALLO = new FlxSprite(305, 140).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			bgHALLO.antialiasing = true;
 			bgHALLO.scrollFactor.set(0.9, 0.9);
 			//bgHALLO.setGraphicSize(Std.int(bgHALLO.width * 1.1));
@@ -248,7 +240,8 @@ class PlayState extends MusicBeatState
 				case 'south':
 					bgHALLO.alpha = 0;
 					bgHALLOend.alpha = 0;
-				case 'spookeez'
+				case 'spookeez':
+					bgHALLOend.alpha = 0;
 					bgHALLO.alpha = 1;
 			}
 			add(bgHALLO);
@@ -2598,7 +2591,9 @@ class PlayState extends MusicBeatState
 
 	var trainMoving:Bool = false;
 	var trainFrameTiming:Float = 0;
-
+	var DONTBEEP:Bool = false;
+	var MORECRAPP:Bool = false;
+	var MORECRAP:Bool = false;
 	var trainCars:Int = 8;
 	var trainFinishing:Bool = false;
 	var trainCooldown:Int = 0;
@@ -2616,8 +2611,22 @@ class PlayState extends MusicBeatState
 	{
 		if (trainSound.time >= 4700)
 		{
+			MORECRAP = false;
 			startedMoving = true;
 			gf.playAnim('hairBlow');
+			DONTBEEP = true;
+			if (!MORECRAPP){
+				zoomout(0.1);
+				MORECRAPP = true;
+			}
+		}
+		else{
+			DONTBEEP = false;
+			if (!MORECRAP){
+				zoomin(0.1);
+				MORECRAP = true;
+			}
+			MORECRAPP = false;
 		}
 
 		if (startedMoving)
@@ -2756,25 +2765,35 @@ class PlayState extends MusicBeatState
 						notegun(4);
 					case 1148:
 						notegun(1);
+					case 379:
+						reload();
+					case 504:
+						reload();
+					case 760:
+						reload();
 				}
 		}
 		if (SONG.song.toLowerCase() == 'spookeez' || SONG.song.toLowerCase() == 'south'){
 			if (curStep % 16 == 0){
-				newR = FlxG.random.int(0, 150);
-				newB = FlxG.random.int(0, 150);
-				newG = FlxG.random.int(0, 150);
-				new FlxTimer().start(0.1, function(tmr:FlxTimer){
-					FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(145, 159, 161));
-				});
-				new FlxTimer().start(0.5, function(tmr:FlxTimer){
-					oldR = newR;
-					oldG = newG;
-					oldB = newB;
-				});
+				lightBeat();
 			}
 		}
 
 		super.stepHit();
+	}
+
+	function lightBeat(){
+		newR = FlxG.random.int(0, 150);
+		newB = FlxG.random.int(0, 150);
+		newG = FlxG.random.int(0, 150);
+		new FlxTimer().start(0.1, function(tmr:FlxTimer){
+			FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(145, 159, 161));
+		});
+		new FlxTimer().start(0.5, function(tmr:FlxTimer){
+			oldR = newR;
+			oldG = newG;
+			oldB = newB;
+		});
 	}
 
 	var lightningStrikeBeat:Int = 0;
@@ -2916,7 +2935,9 @@ class PlayState extends MusicBeatState
 			case 'blammed':
 				if (curStep > 128 && curStep < 384 && totalBeats % 4 == 0){
 					camHUD.zoom += 0.1;
-					gf.playAnim('cheer', false);
+					if (!DONTBEEP){
+						gf.playAnim('cheer', false);
+					}
 				}
 		}
 	}
@@ -3089,14 +3110,14 @@ class PlayState extends MusicBeatState
 			case 4:
 				danger4 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger4.cameras = [camHUD];
-				danger4.alpha = 0;
+				danger4.alpha = 0.1;
 				danger4.color = FlxColor.fromRGB(232, 18, 2);
 				redcrap4 = true;
 				add(danger4);
-				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+				new FlxTimer().start(0.05, function(tmr:FlxTimer){
 					danger4.alpha += 0.1;
-					if (danger4.alpha != 1){
-						tmr.reset(0.02);
+					if (danger4.alpha != 0.7){
+						tmr.reset(0.05);
 					}
 					else{
 						danger4o = true;
@@ -3105,39 +3126,43 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
+				var MORESHIT:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
-						FlxTween.color(danger4, 0.1, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						FlxTween.color(danger4, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
 						redcrap4 = false;
 						yellowcrap4 = true;
-						tmr.reset(0.3);
+						tmr.reset(1);
 					}
 					else if (yellow && !green){
-						FlxTween.color(danger4, 0.1, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						FlxTween.color(danger4, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap4 = false;
 						greencrap4 = true;
-						tmr.reset(0.3);
+						tmr.reset(1);
+						MORESHIT = true;
 					}
-					else{
+					if (!alreadypressed && MORESHIT){
 						remove(danger4);
-						danger4o = false;
-						greencrap4 = false;
+						decrease = 0.7;
 						healthCheck();
+						greencrap4 = false;
+						yellowcrap4 = false;
+						danger4o = false;
 					}
 				});
 			case 5:
 				danger5 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
 				danger5.cameras = [camHUD];
-				danger5.alpha = 0;
+				danger5.alpha = 0.1;
 				danger5.color = FlxColor.fromRGB(232, 18, 2);
 				redcrap5 = true;
 				add(danger5);
-				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+				new FlxTimer().start(0.05, function(tmr:FlxTimer){
 					danger5.alpha += 0.1;
-					if (danger5.alpha != 1){
-						tmr.reset(0.02);
+					if (danger5.alpha != 0.7){
+						tmr.reset(0.05);
 					}
 					else{
 						danger5o = true;
@@ -3146,26 +3171,30 @@ class PlayState extends MusicBeatState
 				//var red:Bool = false;
 				var yellow:Bool = false;
 				var green:Bool = false;
+				var MORESHIT:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
-						FlxTween.color(danger5, 0.1, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						FlxTween.color(danger5, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
 						yellow = true;
 						redcrap5 = false;
 						yellowcrap5 = true;
-						tmr.reset(0.3);
+						tmr.reset(1);
 					}
 					else if (yellow && !green){
-						FlxTween.color(danger5, 0.1, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						FlxTween.color(danger5, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap5 = false;
 						greencrap5 = true;
-						tmr.reset(0.3);
+						tmr.reset(1);
+						MORESHIT = true;
 					}
-					else{
+					if (!alreadypressed && MORESHIT){
 						remove(danger5);
-						danger5o = false;
-						greencrap5 = false;
+						decrease = 0.7;
 						healthCheck();
+						greencrap5 = false;
+						yellowcrap5 = false;
+						danger5o = false;
 					}
 				});
 		}
@@ -3203,6 +3232,7 @@ class PlayState extends MusicBeatState
 					yellowcrap = false;
 					redcrap = false;
 					healthCheck();
+					alreadypressed = false;
 				}
 			}
 			else if (!danger1o && danger2o && !danger3o && !danger4o && !danger5o){
@@ -3223,16 +3253,13 @@ class PlayState extends MusicBeatState
 					shitpopup('sick');
 					gf.playAnim('cheer', false);
 				}
-				else{
-					decrease = 0.7
-					shitpopup('shit');
-				}
 				if (alreadypressed){
 					remove(danger2);
 					danger2o = false;
 					greencrap2 = false;
 					yellowcrap2 = false;
 					redcrap2 = false;
+					alreadypressed = false;
 					healthCheck();
 				}
 			}
@@ -3254,16 +3281,13 @@ class PlayState extends MusicBeatState
 					shitpopup('sick');
 					gf.playAnim('cheer', false);
 				}
-				else{
-					decrease = 0.6;
-					shitpopup('shit');
-				}
 				if (alreadypressed){
 					remove(danger3);
 					danger3o = false;
 					greencrap3 = false;
 					yellowcrap3 = false;
 					redcrap3 = false;
+					alreadypressed = false;
 					healthCheck();
 				}
 			}
@@ -3285,16 +3309,13 @@ class PlayState extends MusicBeatState
 					shitpopup('sick');
 					gf.playAnim('cheer', false);
 				}
-				else{
-					decrease = 0.7;
-					shitpopup('shit');
-				}
 				if (alreadypressed){
 					remove(danger4);
 					danger4o = false;
 					greencrap4 = false;
 					yellowcrap4 = false;
 					redcrap4 = false;
+					alreadypressed = false;
 					healthCheck();
 				}
 			}
@@ -3316,16 +3337,13 @@ class PlayState extends MusicBeatState
 					shitpopup('sick');
 					gf.playAnim('cheer', false);
 				}
-				else{
-					decrease = 0.7;
-					shitpopup('shit');
-				}
 				if (alreadypressed){
 					remove(danger5);
 					danger5o = false;
 					greencrap5 = false;
 					yellowcrap5 = false;
 					redcrap5 = false;
+					alreadypressed = false;
 					healthCheck();
 				}
 			}
@@ -3396,6 +3414,14 @@ class PlayState extends MusicBeatState
 			defaultCamZoom += 0.2;
 		});
 	}
+
+	function zoomout(zoom:Float){
+		defaultCamZoom -= zoom;
+	}
+	function zoomin(zoom:Float){
+		defaultCamZoom += zoom;
+	}
+	
 //red 232, 18, 2
 //yellow 247, 255, 3
 //green 13, 224, 45
