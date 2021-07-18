@@ -2732,40 +2732,30 @@ class PlayState extends MusicBeatState
 			case 'blammed':
 				//blammed song events
 				switch (curStep){
-				    case 117:
-				        notegun(1);
-				    case 374:
-				        notegun(1);
-				    case 379:
-				        reload();
-				    case 501:
-				        notegun(1);
-				    case 522:
-				        notegun(2);
-				    case 535:
-				        notegun(1);
-				    case 539:
-				        notegun(3);
-				    case 546:
-				        notegun(2);
-				    case 553:
-				        notegun(1);
-				    case 757:
-				        notegun(1);
-				    case 788:
-				        notegun(2);
-				    case 832:
-				        notegun(1);
-				    case 853:
-				        notegun(2);
-				    case 885:
-				        notegun(1);
-				    case 1171:
-				        notegun(1);
-				    case 504:
-				        reload();
-				    case 760:
-				        reload();
+					case 96:
+						notegun(1);
+					case 352:
+						notegun(1);
+					case 480:
+						notegun(2);
+					case 500:
+						notegun(1);
+					case 512:
+						notegun(3);
+					case 517:
+						notegun(4);
+					case 532:
+						notegun(5);
+					case 734:
+						notegun(1);
+					case 767:
+						notegun(2);
+					case 810:
+						notegun(3);
+					case 863:
+						notegun(4);
+					case 1148:
+						notegun(1);
 				}
 		}
 		if (SONG.song.toLowerCase() == 'spookeez' || SONG.song.toLowerCase() == 'south'){
@@ -2924,7 +2914,7 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.song.toLowerCase()){
 			case 'blammed':
-				if (curStep > 128 && curStep < 384 && totalBeats % 3 == 0){
+				if (curStep > 128 && curStep < 384 && totalBeats % 4 == 0){
 					camHUD.zoom += 0.1;
 					gf.playAnim('cheer', false);
 				}
@@ -2993,12 +2983,14 @@ class PlayState extends MusicBeatState
 						greencrap = true;
 						tmr.reset(0.3);
 					}
-					else{
+					/*if (alreadypressed){
 						remove(danger1);
 						danger1o = false;
 						greencrap = false;
+						yellowcrap = false;
+						redcrap = false;
 						healthCheck();
-					}
+					}*/
 				});
 			case 2:
 				danger2 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
@@ -3179,7 +3171,7 @@ class PlayState extends MusicBeatState
 					alreadypressed = true;
 					shitpopup('shit');
 					trace('pressed at red');
-					gf.playAnim('sad', false);
+					//gf.playAnim('sad', false);
 				}
 				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap){
 					decrease = 0.2;
@@ -3191,13 +3183,21 @@ class PlayState extends MusicBeatState
 					decrease = 0;
 					alreadypressed = true;
 					shitpopup('sick');
-					gf.playAnim('cheer', false);
+					//gf.playAnim('cheer', false);
 					trace('pressed at green');
 				}
 				else{
 					trace('didnt press.');
 					decrease = 0.7;
 					shitpopup('shit');
+				}
+				if (alreadypressed){
+					remove(danger1);
+					danger1o = false;
+					greencrap = false;
+					yellowcrap = false;
+					redcrap = false;
+					healthCheck();
 				}
 			}
 			else if (!danger1o && danger2o && !danger3o && !danger4o && !danger5o){
@@ -3222,6 +3222,14 @@ class PlayState extends MusicBeatState
 					decrease = 0.7
 					shitpopup('shit');
 				}
+				if (alreadypressed){
+					remove(danger2);
+					danger2o = false;
+					greencrap2 = false;
+					yellowcrap2 = false;
+					redcrap2 = false;
+					healthCheck();
+				}
 			}
 			else if (!danger1o && !danger2o && danger3o && !danger4o && !danger5o){
 				if (!alreadypressed && redcrap3 && FlxG.keys.pressed.SPACE){
@@ -3244,6 +3252,14 @@ class PlayState extends MusicBeatState
 				else{
 					decrease = 0.6;
 					shitpopup('shit');
+				}
+				if (alreadypressed){
+					remove(danger3);
+					danger3o = false;
+					greencrap3 = false;
+					yellowcrap3 = false;
+					redcrap3 = false;
+					healthCheck();
 				}
 			}
 			else if (!danger1o && !danger2o && !danger3o && danger4o && !danger5o){
@@ -3268,6 +3284,14 @@ class PlayState extends MusicBeatState
 					decrease = 0.7;
 					shitpopup('shit');
 				}
+				if (alreadypressed){
+					remove(danger4);
+					danger4o = false;
+					greencrap4 = false;
+					yellowcrap4 = false;
+					redcrap4 = false;
+					healthCheck();
+				}
 			}
 			else if (!danger1o && !danger2o && !danger3o && !danger4o && danger5o){
 				if (!alreadypressed && redcrap5 && FlxG.keys.pressed.SPACE){
@@ -3291,11 +3315,24 @@ class PlayState extends MusicBeatState
 					decrease = 0.7;
 					shitpopup('shit');
 				}
+				if (alreadypressed){
+					remove(danger5);
+					danger5o = false;
+					greencrap5 = false;
+					yellowcrap5 = false;
+					redcrap5 = false;
+					healthCheck();
+				}
 			}
 			tmr.reset(0.1);
 		});
 	}
+	var evencrap:Bool = false;
 	function shitpopup(crap:String){
+		if (evencrap){
+			evencrap = false;
+			remove(crating);
+		}
 		var crating:FlxSprite = new FlxSprite();
 		crating.loadGraphic('assets/images/' + crap + ".png");
 
@@ -3307,6 +3344,7 @@ class PlayState extends MusicBeatState
 		crating.velocity.x -= FlxG.random.int(0, 10);
 		crating.cameras = [camHUD];
 		add(crating);
+		evencrap = true;
 		switch (crap){
 			case 'shit':
 				crating.color = FlxColor.fromRGB(232, 18, 2);
@@ -3324,6 +3362,7 @@ class PlayState extends MusicBeatState
 		dad.playAnim('shoot', false);
 		health -= decrease;
 		decrease = 0;
+		alreadypressed = false;
 		switch (decrease){
 			case 0.7:
 				boyfriend.playAnim('shot', false);
@@ -3346,10 +3385,10 @@ class PlayState extends MusicBeatState
 		}
 	}
 	function reload(){
-	    dad.playAnim('reload', false);
-        defaultCamZoom -= 0.2;
-        new FlxTimer().start(0.5, function(e:FlxTimer){
-            defaultCamZoom += 0.2;
+		dad.playAnim('reload', false);
+		defaultCamZoom -= 0.2;
+		new FlxTimer().start(0.5, function(e:FlxTimer){
+			defaultCamZoom += 0.2;
 		});
 	}
 //red 232, 18, 2
