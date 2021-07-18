@@ -46,6 +46,7 @@ class Character extends FlxSprite
 				animation.addByIndices('hairBlow', "GF Dancing Beat Hair blowing", [0, 1, 2, 3], "", 24);
 				animation.addByIndices('hairFall', "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "", 24, false);
 				animation.addByPrefix('scared', 'GF FEAR', 24);
+				animation.addByPrefix('sad', 'gf sad', 24);
 
 				addOffset('cheer');
 				addOffset('sad', -2, -21);
@@ -234,6 +235,7 @@ class Character extends FlxSprite
 				animation.addByPrefix('idle', "Pico Idle Dance", 24, false);
 				animation.addByPrefix('singUP', 'pico Up note0', 24, false);
 				animation.addByPrefix('singDOWN', 'Pico Down Note0', 24, false);
+				animation.addByPrefix('shoot', 'Pico Down Note0', 24, false);
 				if (isPlayer)
 				{
 					animation.addByPrefix('singLEFT', 'Pico NOTE LEFT0', 24, false);
@@ -251,6 +253,7 @@ class Character extends FlxSprite
 				}
 
 				animation.addByPrefix('singUPmiss', 'pico Up note miss', 24, false);
+				animation.addByPrefix('reload', 'pico Up note miss', 24, false);
 				animation.addByPrefix('singDOWNmiss', 'Pico Down Note MISS', 24, false);
 
 				addOffset('idle');
@@ -258,7 +261,9 @@ class Character extends FlxSprite
 				addOffset("singRIGHT", -85, -11);
 				addOffset("singLEFT", 54, 2);
 				addOffset("singDOWN", 198, -76);
+				addOffset("shoot", 198, -76);
 				addOffset("singUPmiss", -29, 67);
+				addOffset("reload", -29, 67);
 				addOffset("singRIGHTmiss", -70, 28);
 				addOffset("singLEFTmiss", 62, 50);
 				addOffset("singDOWNmiss", 200, -34);
@@ -281,6 +286,8 @@ class Character extends FlxSprite
 				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 				animation.addByPrefix('hey', 'BF HEY', 24, false);
 				animation.addByPrefix('attack', 'boyfriend attack', 24, false);
+				animation.addByPrefix('shot', 'BF hit', 24, false);
+				animation.addByPrefix('dodge', 'boyfriend dodge', 24, false);
 
 				animation.addByPrefix('firstDeath', "BF dies", 24, false);
 				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
@@ -302,6 +309,8 @@ class Character extends FlxSprite
 				addOffset('deathLoop', 37, 5);
 				addOffset('deathConfirm', 37, 69);
 				addOffset('scared', -4);
+				addOffset('shot', -4);
+				addOffset('dodge', -4);
 
 				playAnim('idle');
 

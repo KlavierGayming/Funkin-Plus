@@ -126,6 +126,11 @@ class PlayState extends MusicBeatState
 	var phillyCityLights:FlxTypedGroup<FlxSprite>;
 	var phillyTrain:FlxSprite;
 	var trainSound:FlxSound;
+	var danger1:FlxSprite;
+	var danger2:FlxSprite;
+	var danger3:FlxSprite;
+	var danger4:FlxSprite;
+	var danger5:FlxSprite;
 
 	var limo:FlxSprite;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
@@ -216,11 +221,12 @@ class PlayState extends MusicBeatState
 			curStage = "spooky";
 			trace('song is ' + SONG.song);
 			//halloweenLevel = true;
-			bgHALLOend = new FlxSprite(-600, -200).loadGraphic('assets/images/betastuff/halloweenbg.png');
+			bgHALLOend = new FlxSprite(360, 150).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			trace('loaded png');
 			bgHALLOend.antialiasing = true;
 			bgHALLOend.scrollFactor.set(0.9, 0.9);
-			bgHALLOend.setGraphicSize(Std.int(bgHALLOend.width * 1.9));
+			//bgHALLOend.setGraphicSize(Std.int(bgHALLOend.width * 1.9));
+			bgHALLOend.scale.set(1.9, 1.9);
 			bgHALLOend.active = false;
 			add(bgHALLOend);
 			/*var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
@@ -232,7 +238,7 @@ class PlayState extends MusicBeatState
 			halloweenBG.animation.play('idle');
 			halloweenBG.antialiasing = true;
 			add(halloweenBG);*/
-			bgHALLO = new FlxSprite(500, 200).loadGraphic('assets/images/betastuff/halloweenbg.png');
+			bgHALLO = new FlxSprite(360, 150).loadGraphic('assets/images/betastuff/halloweenbg.png');
 			bgHALLO.antialiasing = true;
 			bgHALLO.scrollFactor.set(0.9, 0.9);
 			//bgHALLO.setGraphicSize(Std.int(bgHALLO.width * 1.1));
@@ -2651,6 +2657,7 @@ class PlayState extends MusicBeatState
 
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
+		FlxG.camera.shake(0.02, 0.1);
 
 		boyfriend.playAnim('scared', true);
 		gf.playAnim('scared', true);
@@ -2722,19 +2729,59 @@ class PlayState extends MusicBeatState
 							}
 						});
 				}
-				if (curStep % 4 == 0 && curStep > 100){
-					newR = FlxG.random.int(0, 150);
-					newB = FlxG.random.int(0, 150);
-					newG = FlxG.random.int(0, 150);
-					new FlxTimer().start(0.1, function(tmr:FlxTimer){
-						FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(20, 20, 20));
-					});
-					new FlxTimer().start(0.5, function(tmr:FlxTimer){
-						oldR = newR;
-						oldG = newG;
-						oldB = newB;
-					});
+			case 'blammed':
+				//blammed song events
+				switch (curStep){
+				    case 117:
+				        notegun(1);
+				    case 374:
+				        notegun(1);
+				    case 379:
+				        reload();
+				    case 501:
+				        notegun(1);
+				    case 522:
+				        notegun(2);
+				    case 535:
+				        notegun(3);
+				    case 539:
+				        notegun(1);
+				    case 546:
+				        notegun(4);
+				    case 553:
+				        notegun(2);
+				    case 757:
+				        notegun(1);
+				    case 788:
+				        notegun(2);
+				    case 832:
+				        notegun(1);
+				    case 853:
+				        notegun(2);
+				    case 885:
+				        notegun(1);
+				    case 1171:
+				        notegun(1);
+				    case 504:
+				        reload();
+				    case 760:
+				        reload();
 				}
+		}
+		if (SONG.song.toLowerCase() == 'spookeez' || SONG.song.toLowerCase() == 'south'){
+			if (curStep % 16 == 0 && curStep > 100){
+				newR = FlxG.random.int(0, 150);
+				newB = FlxG.random.int(0, 150);
+				newG = FlxG.random.int(0, 150);
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
+					FlxTween.color(bgHALLO, 0.4, FlxColor.fromRGB(oldR, oldG, oldB), FlxColor.fromRGB(145, 159, 161));
+				});
+				new FlxTimer().start(0.5, function(tmr:FlxTimer){
+					oldR = newR;
+					oldG = newG;
+					oldB = newB;
+				});
+			}
 		}
 
 		super.stepHit();
@@ -2742,7 +2789,7 @@ class PlayState extends MusicBeatState
 
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
-
+//128 384
 	override function beatHit()
 	{
 		wiggleShit.update(Conductor.crochet);
@@ -2869,12 +2916,428 @@ class PlayState extends MusicBeatState
 				}
 		}
 
-		/*if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
+		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
 		{
 			lightningStrikeShit();
 			
-		}*/
+		}
+
+		switch (SONG.song.toLowerCase()){
+			case 'blammed':
+				if (curStep > 128 && curStep < 384 && curBeat % 2 == 0){
+					camHUD.zoom += 0.1;
+					gf.playAnim('cheer', false);
+				}
+		}
 	}
 
+	var checkin:Bool = false;
+	var danger1o:Bool = false;
+	var danger2o:Bool = false;
+	var danger3o:Bool = false;
+	var danger4o:Bool = false;
+	var danger5o:Bool = false;
+	var redcrap:Bool = false;
+	var yellowcrap:Bool = false;
+	var greencrap:Bool = false;
+	var redcrap2:Bool = false;
+	var yellowcrap2:Bool = false;
+	var greencrap2:Bool = false;
+	var redcrap3:Bool = false;
+	var yellowcrap3:Bool = false;
+	var greencrap3:Bool = false;
+	var redcrap4:Bool = false;
+	var yellowcrap4:Bool = false;
+	var greencrap4:Bool = false;
+
+	function notegun(?Note:Int = 1){
+		if (!checkin){
+			checkin = true;
+			checkDodge();
+		}
+		switch (Note){
+			case 1:
+				danger1 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger1.cameras = [camHUD];
+				danger1.alpha = 0;
+				danger1.color = FlxColor.fromRGB(232, 18, 2);
+				redcrap = true;
+				add(danger1);
+				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+					danger1.alpha += 0.1;
+					if (danger1.alpha != 1){
+						tmr.reset(0.02);
+					}
+					else{
+						danger1o = true;
+					}
+				});
+				//var red:Bool = false;
+				var yellow:Bool = false;
+				var green:Bool = false;
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
+					if (!yellow && !green){
+						FlxTween.color(danger1, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						yellow = true;
+						redcrap = false;
+						yellowcrap = true;
+						tmr.reset(0.3);
+					}
+					else if (yellow && !green){
+						FlxTween.color(danger1, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						green = true;
+						yellowcrap = false;
+						greencrap = true;
+						tmr.reset(0.3);
+					}
+					else{
+						remove(danger1);
+						danger1o = false;
+						greencrap = false;
+						healthCheck();
+					}
+				});
+			case 2:
+				danger2 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger2.cameras = [camHUD];
+				danger2.alpha = 0;
+				danger2.color = FlxColor.fromRGB(232, 18, 2);
+				redcrap2 = true;
+				add(danger2);
+				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+					danger2.alpha += 0.1;
+					if (danger2.alpha != 1){
+						tmr.reset(0.02);
+					}
+					else{
+						danger2o = true;
+					}
+				});
+				//var red:Bool = false;
+				var yellow:Bool = false;
+				var green:Bool = false;
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
+					if (!yellow && !green){
+						FlxTween.color(danger2, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						yellow = true;
+						redcrap2 = false;
+						yellowcrap2 = true;
+						tmr.reset(0.3);
+					}
+					else if (yellow && !green){
+						FlxTween.color(danger2, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						green = true;
+						yellowcrap2 = false;
+						greencrap2 = true;
+						tmr.reset(0.3);
+					}
+					else{
+						remove(danger2);
+						danger2o = false;
+						greencrap2 = false;
+						healthCheck();
+					}
+				});
+			case 3:
+				danger3 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger3.cameras = [camHUD];
+				danger3.alpha = 0;
+				danger3.color = FlxColor.fromRGB(232, 18, 2);
+				redcrap3 = true;
+				add(danger3);
+				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+					danger3.alpha += 0.1;
+					if (danger3.alpha != 1){
+						tmr.reset(0.02);
+					}
+					else{
+						danger3o = true;
+					}
+				});
+				//var red:Bool = false;
+				var yellow:Bool = false;
+				var green:Bool = false;
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
+					if (!yellow && !green){
+						FlxTween.color(danger3, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						yellow = true;
+						yellowcrap3 = true;
+						redcrap3 = false;
+						tmr.reset(0.3);
+					}
+					else if (yellow && !green){
+						FlxTween.color(danger3, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						green = true;
+						greencrap3 = true;
+						yellowcrap3 = false;
+						tmr.reset(0.3);
+					}
+					else{
+						remove(danger3);
+						danger3o = false;
+						greencrap3 = false;
+						healthCheck();
+					}
+				});
+			case 4:
+				danger4 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger4.cameras = [camHUD];
+				danger4.alpha = 0;
+				danger4.color = FlxColor.fromRGB(232, 18, 2);
+				redcrap4 = true;
+				add(danger4);
+				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+					danger4.alpha += 0.1;
+					if (danger4.alpha != 1){
+						tmr.reset(0.02);
+					}
+					else{
+						danger4o = true;
+					}
+				});
+				//var red:Bool = false;
+				var yellow:Bool = false;
+				var green:Bool = false;
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
+					if (!yellow && !green){
+						FlxTween.color(danger4, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						yellow = true;
+						redcrap4 = false;
+						yellowcrap4 = true;
+						tmr.reset(0.3);
+					}
+					else if (yellow && !green){
+						FlxTween.color(danger4, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						green = true;
+						yellowcrap4 = false;
+						greencrap4 = true;
+						tmr.reset(0.3);
+					}
+					else{
+						remove(danger4);
+						danger4o = false;
+						greencrap4 = false;
+						healthCheck();
+					}
+				});
+			case 5:
+				danger5 = new FlxSprite(770 + FlxG.random.int(-90, 100), 450 - FlxG.random.int(20, 150)).loadGraphic('assets/images/betastuff/dangernote.png');
+				danger5.cameras = [camHUD];
+				danger5.alpha = 0;
+				danger5.color = FlxColor.fromRGB(232, 18, 2);
+				redcrap5 = true;
+				add(danger5);
+				new FlxTimer().start(0.02, function(tmr:FlxTimer){
+					danger5.alpha += 0.1;
+					if (danger5.alpha != 1){
+						tmr.reset(0.02);
+					}
+					else{
+						danger5o = true;
+					}
+				});
+				//var red:Bool = false;
+				var yellow:Bool = false;
+				var green:Bool = false;
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){
+					if (!yellow && !green){
+						FlxTween.color(danger5, 0.03, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
+						yellow = true;
+						redcrap5 = false;
+						yellowcrap5 = true;
+						tmr.reset(0.3);
+					}
+					else if (yellow && !green){
+						FlxTween.color(danger5, 0.03, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
+						green = true;
+						yellowcrap5 = false;
+						greencrap5 = true;
+						tmr.reset(0.3);
+					}
+					else{
+						remove(danger5);
+						danger5o = false;
+						greencrap5 = false;
+						healthCheck();
+					}
+				});
+		}
+	}
+//FlxG.keys.pressed.SPACE
+	var decrease:Float = 0;
+	var alreadypressed:Bool = false;
+
+	function checkDodge(){
+		new FlxTimer().start(0.1, function(tmr:FlxTimer){
+			if (danger1o && !danger2o && !danger3o && !danger4o && !danger5o){
+				if (!alreadypressed && redcrap && FlxG.keys.pressed.SPACE){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
+			}
+			else if (!danger1o && danger2o && !danger3o && !danger4o && !danger5o){
+				if (alreadypressed && redcrap2 && FlxG.keys.pressed.SPACE){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap2){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap2){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
+			}
+			else if (!danger1o && !danger2o && danger3o && !danger4o && !danger5o){
+				if (alreadypressed && redcrap3 && FlxG.keys.pressed.SPACE){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap3){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap3){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
+			}
+			else if (!danger1o && !danger2o && !danger3o && danger4o && !danger5o){
+				if (!alreadypressed && redcrap4 && FlxG.keys.pressed.SPACE){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap4){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap4){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
+			}
+			else if (!danger1o && !danger2o && !danger3o && !danger4o && danger5o){
+				if (!alreadypressed && redcrap5 && FlxG.keys.pressed.SPACE){
+					decrease = 1;
+					alreadypressed = true;
+					shitpopup('shit');
+					gf.playAnim('sad', false);
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap5){
+					decrease = 0.4;
+					alreadypressed = true;
+					shitpopup('good');
+				}
+				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap5){
+					decrease = 0;
+					alreadypressed = true;
+					shitpopup('sick');
+					gf.playAnim('cheer', false);
+				}
+				else{
+					decrease = 1.1;
+				}
+			}
+			tmr.reset(0.1);
+		});
+	}
+	function shitpopup(crap:String){
+		var rating:FlxSprite = new FlxSprite();
+		rating.loadGraphic('assets/images/' + crap + ".png");
+		switch (crap){
+			case 'shit':
+				rating.color = FlxColor.fromRGB(232, 18, 2);
+			case 'good':
+				rating.color = FlxColor.fromRGB(247, 255, 3);
+			case 'sick':
+				rating.color = FlxColor.fromRGB(13, 224, 45);
+		}
+		rating.screenCenter();
+		rating.x = coolText.x - 40;
+		rating.y -= 60;
+		rating.acceleration.y = 550;
+		rating.velocity.y -= FlxG.random.int(140, 175);
+		rating.velocity.x -= FlxG.random.int(0, 10);
+		add(rating);
+		rating.setGraphicSize(Std.int(rating.width * 0.7));
+		rating.antialiasing = true;
+		rating.updateHitbox();
+	}
+
+	function healthCheck(){
+		dad.playAnim('shoot', false);
+		health -= decrease;
+		switch (decrease){
+			case 1.1:
+				boyfriend.playAnim('shot', false);
+				gf.playAnim('scared', false);
+			case 1:
+				boyfriend.playAnim('shot', false);
+				gf.playAnim('scared', false);
+			case 0.4:
+				boyfriend.playAnim('dodge', false);
+				gf.playAnim('scared', false);
+				new FlxTimer().start(1, function(e:FlxTimer){
+					boyfriend.playAnim('scared', false);
+				});
+			default:
+				boyfriend.playAnim('dodge', false);
+				gf.playAnim('cheer', false);
+				new FlxTimer().start(1, function(e:FlxTimer){
+					boyfriend.playAnim('hey', false);
+				});
+		}
+	}
+	function reload(){
+	    dad.playAnim('reload', false);
+        defaultCamZoom -= 0.1;
+        new FlxTimer().start(0.5, function(e:FlxTimer){
+            defaultCamZoom += 0.1;
+		});
+	}
+//red 232, 18, 2
+//yellow 247, 255, 3
+//green 13, 224, 45
 	var curLight:Int = 0;
 }
