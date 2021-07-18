@@ -118,7 +118,7 @@ class TitleStateNormal extends MusicBeatState
 		bgGrad.antialiasing = true;
 		bgGrad.updateHitbox();
 		
-		var evanb:FlxSprite = new FlxSprite().loadGraphic('assets/images/evanegg.png');
+		var evanb:FlxSprite = new FlxSprite().loadGraphic('assets/images/evan.png');
 		evanb.antialiasing = true;
 		evanb.updateHitbox();
 
