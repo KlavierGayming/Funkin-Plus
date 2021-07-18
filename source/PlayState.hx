@@ -2769,7 +2769,7 @@ class PlayState extends MusicBeatState
 				}
 		}
 		if (SONG.song.toLowerCase() == 'spookeez' || SONG.song.toLowerCase() == 'south'){
-			if (curStep % 16 == 0 && curStep > 100){
+			if (curStep % 16 == 0){
 				newR = FlxG.random.int(0, 150);
 				newB = FlxG.random.int(0, 150);
 				newG = FlxG.random.int(0, 150);
