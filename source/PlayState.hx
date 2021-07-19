@@ -3432,11 +3432,13 @@ class PlayState extends MusicBeatState
 		crating.antialiasing = true;
 		crating.updateHitbox();
 	}
-
+    var shitshit:Bool = false;
 	function healthCheck(){
 		dad.playAnim('shoot', false);
-		if (decrease != 0){
+		
+		if (decrease != 0 && shitshit){
 		    health -= decrease;
+		    shitshit = false;
 		}
 		switch (decrease){
 			/*case 1.00:
@@ -3467,6 +3469,7 @@ class PlayState extends MusicBeatState
 		alreadypressed = false;
 		new FlxTimer().start(1.5, function(e:FlxTimer){
 		    resetCrap();
+		    shitshit = true;
 		});
 	}
 	function reload(){
