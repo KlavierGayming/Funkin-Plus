@@ -3283,7 +3283,7 @@ class PlayState extends MusicBeatState
 			trace('dangercheckone');
 			if (!alreadypressed && redcrap && FlxG.keys.pressed.SPACE){
 				alreadypressed = true;
-				decrease = 1;
+				decrease = 1.00;
 
 				shitpopup('shit');
 				trace('pressed at red');
@@ -3292,7 +3292,7 @@ class PlayState extends MusicBeatState
 			}
 			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap){
 				alreadypressed = true;
-				decrease = 0.5;
+				decrease = 0.50;
 
 				shitpopup('good');
 				trace('pressed at yellow');
@@ -3312,7 +3312,7 @@ class PlayState extends MusicBeatState
 			trace('dangerchecktwo');
 			if (!alreadypressed && redcrap2 && FlxG.keys.pressed.SPACE){
 				alreadypressed = true;
-		    	decrease = 1;
+		    	decrease = 1.00;
 
 		    	shitpopup('shit');
 			//gf.playAnim('sad', false);
@@ -3320,7 +3320,7 @@ class PlayState extends MusicBeatState
 			}
 			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap2){
 				alreadypressed = true;
-				decrease = 0.5;
+				decrease = 0.50;
 
 				shitpopup('good');
 				//crap1 = 1.9;
@@ -3337,14 +3337,14 @@ class PlayState extends MusicBeatState
 			trace('dangercheckthree');
 			if (!alreadypressed && redcrap3 && FlxG.keys.pressed.SPACE){
 				alreadypressed = true;
-				decrease = 1;
+				decrease = 1.00;
 
 				shitpopup('shit');
 				//gf.playAnim('sad', false);
 			}
 			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap3){
 				alreadypressed = true;
-				decrease = 0.5;
+				decrease = 0.50;
 
 				shitpopup('good');
 			}
@@ -3360,14 +3360,14 @@ class PlayState extends MusicBeatState
 			trace('dangercheckfour');
 			if (!alreadypressed && redcrap4 && FlxG.keys.pressed.SPACE){
 				alreadypressed = true;
-				decrease = 1;
+				decrease = 1.00;
 				
 				shitpopup('shit');
 				//gf.playAnim('sad', false);
 			}
 			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap4){
 				alreadypressed = true;
-				decrease = 0.5;
+				decrease = 0.50;
 
 				shitpopup('good');
 			}
@@ -3439,15 +3439,15 @@ class PlayState extends MusicBeatState
 		    health -= decrease;
 		}
 		switch (decrease){
-			case 1.05:
+			/*case 1.00:
 				boyfriend.playAnim('shot', false);
 				gf.playAnim('scared', false);
-				trace('you lose 1.05 health');
-			case 1:
+				trace('you lose 1.05 health');*/
+			case 1.00:
 				boyfriend.playAnim('shot', false);
 				gf.playAnim('scared', false);
 				trace('you lose 1 health');
-			case 0.5:
+			case 0.50:
 				boyfriend.playAnim('dodge', false);
 				gf.playAnim('scared', false);
 				new FlxTimer().start(1, function(e:FlxTimer){
@@ -3463,28 +3463,11 @@ class PlayState extends MusicBeatState
 				});
 				trace('you lose 0 health');
 		}
-		decrease = 1.05;
+		//decrease = 1.05;
 		alreadypressed = false;
-		/*switch (decrease){
-			case 0.7:
-				boyfriend.playAnim('shot', false);
-				gf.playAnim('scared', false);
-			case 0.65:
-				boyfriend.playAnim('shot', false);
-				gf.playAnim('scared', false);
-			case 0.25:
-				boyfriend.playAnim('dodge', false);
-				gf.playAnim('scared', false);
-				new FlxTimer().start(1, function(e:FlxTimer){
-					boyfriend.playAnim('scared', false);
-				});
-			default:
-				boyfriend.playAnim('dodge', false);
-				gf.playAnim('cheer', false);
-				new FlxTimer().start(1, function(e:FlxTimer){
-					boyfriend.playAnim('hey', false);
-				});
-		}*/
+		new FlxTimer().start(1.5, function(e:FlxTimer){
+		    resetCrap();
+		});
 	}
 	function reload(){
 		dad.playAnim('reload', false);
@@ -3500,7 +3483,10 @@ class PlayState extends MusicBeatState
 	function zoomin(zoom:Float){
 		defaultCamZoom += zoom;
 	}
-	
+	function resetCrap(){
+	    alreadypressed = false;
+	    decrease = 1.00;
+	}
 //red 232, 18, 2
 //yellow 247, 255, 3
 //green 13, 224, 45
