@@ -1,6 +1,6 @@
 package;
 
-//import NoteSplash;
+import NoteSplash;
 import sys.FileSystem;
 //import polymod.fs.SysFileSystem;
 import Section.SwagSection;
@@ -100,7 +100,7 @@ class PlayState extends MusicBeatState
 	private var curSong:String = "";
 
 	private var gfSpeed:Int = 1;
-	private var health:Float = 1;
+	private var health:Float = 1.25;
 	private var combo:Int = 0;
 	private var misses:Int = 0;
 	private var accuracy:Float = 0.00;
@@ -160,6 +160,10 @@ class PlayState extends MusicBeatState
 
 	var dadBeats:Array<Int> = [0, 2];
 	var bfBeats:Array<Int> = [1, 3];
+
+	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
+	var noteSplashOp:Bool = true;
+	private var SplashNote:NoteSplash;
 	
 	override public function create()
 	{
@@ -203,7 +207,10 @@ class PlayState extends MusicBeatState
 
 		persistentUpdate = true;
 		persistentDraw = true;
-
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+		var sploosh = new NoteSplash(100, 100, 0);
+		sploosh.alpha = 0.6;
+		grpNoteSplashes.add(sploosh);
 		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
 
@@ -718,6 +725,7 @@ class PlayState extends MusicBeatState
 
 		strumLineNotes = new FlxTypedGroup<FlxSprite>();
 		add(strumLineNotes);
+		add(grpNoteSplashes);
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 		enemyStrums = new FlxTypedGroup<FlxSprite>();
@@ -786,7 +794,7 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
-
+		grpNoteSplashes.cameras = [camHUD];
 		healthBar.visible = false;
 		healthBarBG.visible = false;
 		iconP1.visible = false;
@@ -1406,6 +1414,7 @@ class PlayState extends MusicBeatState
 						trainFrameTiming = 0;
 					}
 				}
+				//checkDodge();
 				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 		}
 
@@ -1416,6 +1425,10 @@ class PlayState extends MusicBeatState
 				scoreTxt.text = "Score:" + songScore;
 			default:
 				scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
+		}
+
+		if (SONG.song.toLowerCase() == 'blammed'){
+			checkDodge();
 		}
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
@@ -1948,9 +1961,9 @@ class PlayState extends MusicBeatState
 
 	var endingSong:Bool = false;
 
-	private function popUpScore(strumtime:Float):Void
+	private function popUpScore(daNote:Note):Void
 	{
-		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
+		var noteDiff:Float = Math.abs(daNote.strumTime - Conductor.songPosition);
 		// boyfriend.playAnim('hey');
 		vocals.volume = 1;
 
@@ -2000,7 +2013,15 @@ class PlayState extends MusicBeatState
 				score = 200;
 			}
 		if (daRating == 'sick')
-			totalNotesHit += 1;
+			{
+			    totalNotesHit += 1;
+				if (noteSplashOp)
+				{
+					var recycledNote = grpNoteSplashes.recycle(NoteSplash);
+					recycledNote.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
+					grpNoteSplashes.add(recycledNote);
+				}
+			}
 	
 		//trace('hit ' + daRating);
 
@@ -2746,23 +2767,23 @@ class PlayState extends MusicBeatState
 					case 352:
 						notegun(1);
 					case 480:
-						notegun(2);
-					case 500:
 						notegun(1);
+					case 500:
+						notegun(2);
 					case 512:
-						notegun(3);
+						notegun(1);
 					case 517:
-						notegun(4);
+						notegun(2);
 					case 532:
-						notegun(5);
+						notegun(3);
 					case 734:
 						notegun(1);
 					case 767:
-						notegun(2);
+						notegun(1);
 					case 810:
-						notegun(3);
+						notegun(1);
 					case 863:
-						notegun(4);
+						notegun(1);
 					case 1148:
 						notegun(1);
 					case 379:
@@ -2963,7 +2984,7 @@ class PlayState extends MusicBeatState
 	var redcrap5:Bool = false;
 	var greencrap5:Bool = false;
 	var yellowcrap5:Bool = false;
-	var decrease:Float = 0;
+	var decrease:Float = 1.05;
 	var alreadypressed:Bool = false;
 
 	function notegun(?Note:Int = 1){
@@ -2992,6 +3013,7 @@ class PlayState extends MusicBeatState
 				var yellow:Bool = false;
 				var green:Bool = false;
 				var MORESHIT:Bool = false;
+				var ughh:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger1, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
@@ -3000,21 +3022,27 @@ class PlayState extends MusicBeatState
 						yellowcrap = true;
 						tmr.reset(1);
 					}
-					else if (yellow && !green){
+					if (yellow && !green){
 						FlxTween.color(danger1, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap = false;
 						greencrap = true;
-						tmr.reset(1);
 						MORESHIT = true;
+						ughh = true;
+						tmr.reset(1);
 					}
-					if (!alreadypressed && MORESHIT){
-						remove(danger1);
-						decrease = 0.7;
-						healthCheck();
-						greencrap = false;
-						yellowcrap = false;
-						danger1o = false;
+					if (MORESHIT){
+					    new FlxTimer().start(0.9, function(crap:FlxTimer){
+		    		    	if (ughh){
+		    	    	    	remove(danger1);
+	    	    		    	danger1o = false;
+	    	    	    		greencrap = false;
+		    	    	    	yellowcrap = false;
+    		    	    		redcrap = false;
+		    	    	    	//alreadypressed = false;
+	    	    	    		healthCheck();
+		    		    	}
+				    	});
 					}
 				});
 			case 2:
@@ -3037,6 +3065,7 @@ class PlayState extends MusicBeatState
 				var yellow:Bool = false;
 				var green:Bool = false;
 				var MORESHIT:Bool = false;
+				var ughh:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger2, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
@@ -3045,21 +3074,30 @@ class PlayState extends MusicBeatState
 						yellowcrap2 = true;
 						tmr.reset(1);
 					}
-					else if (yellow && !green){
+					if (yellow && !green){
 						FlxTween.color(danger2, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap2 = false;
 						greencrap2 = true;
 						tmr.reset(1);
 						MORESHIT = true;
+						ughh = true;
 					}
-					if (!alreadypressed && MORESHIT){
-						remove(danger2);
-						decrease = 0.7;
-						healthCheck();
-						greencrap2 = false;
-						yellowcrap2 = false;
-						danger2o = false;
+					if (MORESHIT){
+					    new FlxTimer().start(0.9, function(tmr:FlxTimer){
+		    		        if (ughh){
+		    	    	    	remove(danger2);
+	    	    		    	danger2o = false;
+	    	    	    		greencrap2 = false;
+		    	    	    	yellowcrap3 = false;
+    		    	    		redcrap3 = false;
+		    	    	    	//alreadypressed = false;
+	    	    	    		healthCheck();
+		    		    	}
+		    	    	    else{
+		    	    	        trace('not pressed');
+		    	    	    }
+				    	});
 					}
 				});
 			case 3:
@@ -3082,6 +3120,7 @@ class PlayState extends MusicBeatState
 				var yellow:Bool = false;
 				var green:Bool = false;
 				var MORESHIT:Bool = false;
+				var ughh:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger3, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
@@ -3090,21 +3129,30 @@ class PlayState extends MusicBeatState
 						yellowcrap3 = true;
 						tmr.reset(1);
 					}
-					else if (yellow && !green){
+					if (yellow && !green){
 						FlxTween.color(danger3, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap3 = false;
 						greencrap3 = true;
 						tmr.reset(1);
 						MORESHIT = true;
+						ughh = true;
 					}
-					if (!alreadypressed && MORESHIT){
-						remove(danger3);
-						decrease = 0.7;
-						healthCheck();
-						greencrap3 = false;
-						yellowcrap3 = false;
-						danger3o = false;
+					if (MORESHIT){
+					    new FlxTimer().start(0.9, function(tmr:FlxTimer){
+					        if (ughh){
+		    	    	    	remove(danger3);
+	    	    		    	danger3o = false;
+	    	    	    		greencrap3 = false;
+		    	    	    	yellowcrap3 = false;
+    		    	    		redcrap3 = false;
+		    	    	    	//alreadypressed = false;
+	    	    	    		healthCheck();
+		    		    	}
+		    	    	    else{
+		    	    	        trace('not pressed');
+		    	    	    }
+				    	});
 					}
 				});
 			case 4:
@@ -3127,6 +3175,7 @@ class PlayState extends MusicBeatState
 				var yellow:Bool = false;
 				var green:Bool = false;
 				var MORESHIT:Bool = false;
+				var ughh:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger4, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
@@ -3135,21 +3184,30 @@ class PlayState extends MusicBeatState
 						yellowcrap4 = true;
 						tmr.reset(1);
 					}
-					else if (yellow && !green){
+					if (yellow && !green){
 						FlxTween.color(danger4, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap4 = false;
 						greencrap4 = true;
 						tmr.reset(1);
 						MORESHIT = true;
+						ughh = true;
 					}
-					if (!alreadypressed && MORESHIT){
-						remove(danger4);
-						decrease = 0.7;
-						healthCheck();
-						greencrap4 = false;
-						yellowcrap4 = false;
-						danger4o = false;
+					if (MORESHIT){
+					    new FlxTimer().start(0.9, function(tmr:FlxTimer){
+		    		    	if (ughh){
+		    	    	    	remove(danger4);
+	    	    		    	danger4o = false;
+	    	    	    		greencrap4 = false;
+		    	    	    	yellowcrap4 = false;
+    		    	    		redcrap4 = false;
+		    	    	    	//alreadypressed = false;
+	    	    	    		healthCheck();
+		    		    	}
+		    	    	    else{
+		    	    	        trace('not pressed');
+		    	    	    }
+				    	});
 					}
 				});
 			case 5:
@@ -3172,6 +3230,7 @@ class PlayState extends MusicBeatState
 				var yellow:Bool = false;
 				var green:Bool = false;
 				var MORESHIT:Bool = false;
+				var ughh:Bool = false;
 				new FlxTimer().start(0.1, function(tmr:FlxTimer){
 					if (!yellow && !green){
 						FlxTween.color(danger5, 0.4, FlxColor.fromRGB(232, 18, 2), FlxColor.fromRGB(247, 255, 3));
@@ -3180,182 +3239,171 @@ class PlayState extends MusicBeatState
 						yellowcrap5 = true;
 						tmr.reset(1);
 					}
-					else if (yellow && !green){
+					if (yellow && !green){
 						FlxTween.color(danger5, 0.4, FlxColor.fromRGB(247, 255, 3), FlxColor.fromRGB(13, 224, 45));
 						green = true;
 						yellowcrap5 = false;
 						greencrap5 = true;
 						tmr.reset(1);
 						MORESHIT = true;
+						ughh = true;
 					}
-					if (!alreadypressed && MORESHIT){
-						remove(danger5);
-						decrease = 0.7;
-						healthCheck();
-						greencrap5 = false;
-						yellowcrap5 = false;
-						danger5o = false;
+					if (MORESHIT){
+					    new FlxTimer().start(0.9, function(tmr:FlxTimer){
+		    		    if (ughh){
+		    	    	    	remove(danger5);
+	    	    		    	danger5o = false;
+	    	    	    		greencrap5 = false;
+		    	    	    	yellowcrap5 = false;
+    		    	    		redcrap5 = false;
+		    	    	    	alreadypressed = false;
+	    	    	    		healthCheck();
+		    		    	}
+		    	    	    else{
+		    	    	        trace('not pressed');
+		    	    	    }
+				    	});
 					}
 				});
 		}
 	}
 //FlxG.keys.pressed.SPACE
 
+	var crap1:Float = 0;
+	var crap2:Float = 0;
+	var crap3:Float = 0;
+	var crap4:Float = 0;
+	var crap5:Float = 0;
+
 	function checkDodge(){
-		new FlxTimer().start(0.1, function(tmr:FlxTimer){
-			if (danger1o && !danger2o && !danger3o && !danger4o && !danger5o){
-				trace('dangercheckone');
-				if (!alreadypressed && redcrap && FlxG.keys.pressed.SPACE){
-					decrease = 0.6;
-					alreadypressed = true;
-					shitpopup('shit');
-					trace('pressed at red');
-					//gf.playAnim('sad', false);
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap){
-					decrease = 0.2;
-					alreadypressed = true;
-					shitpopup('good');
-					trace('pressed at yellow');
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap){
-					decrease = 0;
-					alreadypressed = true;
-					shitpopup('sick');
-					//gf.playAnim('cheer', false);
-					trace('pressed at green');
-				}
-				if (alreadypressed){
-					remove(danger1);
-					danger1o = false;
-					greencrap = false;
-					yellowcrap = false;
-					redcrap = false;
-					healthCheck();
-					alreadypressed = false;
-				}
+		/*if (!alreadypressed){
+		    decrease = 1.05;
+		}*/
+		if (danger1o){
+			trace('dangercheckone');
+			if (!alreadypressed && redcrap && FlxG.keys.pressed.SPACE){
+				alreadypressed = true;
+				decrease = 1;
+
+				shitpopup('shit');
+				trace('pressed at red');
+				//gf.playAnim('sad', false);
+				//crap1 = 2;
 			}
-			else if (!danger1o && danger2o && !danger3o && !danger4o && !danger5o){
-				if (!alreadypressed && redcrap2 && FlxG.keys.pressed.SPACE){
-					decrease = 0.6;
-					alreadypressed = true;
-					shitpopup('shit');
-					gf.playAnim('sad', false);
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap2){
-					decrease = 0.2;
-					alreadypressed = true;
-					shitpopup('good');
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap2){
-					decrease = 0;
-					alreadypressed = true;
-					shitpopup('sick');
-					gf.playAnim('cheer', false);
-				}
-				if (alreadypressed){
-					remove(danger2);
-					danger2o = false;
-					greencrap2 = false;
-					yellowcrap2 = false;
-					redcrap2 = false;
-					alreadypressed = false;
-					healthCheck();
-				}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap){
+				alreadypressed = true;
+				decrease = 0.5;
+
+				shitpopup('good');
+				trace('pressed at yellow');
+				//crap1 = 1.9;
 			}
-			else if (!danger1o && !danger2o && danger3o && !danger4o && !danger5o){
-				if (!alreadypressed && redcrap3 && FlxG.keys.pressed.SPACE){
-					decrease = 0.6;
-					alreadypressed = true;
-					shitpopup('shit');
-					gf.playAnim('sad', false);
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap3){
-					decrease = 0.2;
-					alreadypressed = true;
-					shitpopup('good');
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap3){
-					decrease = 0;
-					alreadypressed = true;
-					shitpopup('sick');
-					gf.playAnim('cheer', false);
-				}
-				if (alreadypressed){
-					remove(danger3);
-					danger3o = false;
-					greencrap3 = false;
-					yellowcrap3 = false;
-					redcrap3 = false;
-					alreadypressed = false;
-					healthCheck();
-				}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap){
+				alreadypressed = true;
+				decrease = 0;
+				
+				shitpopup('sick');
+				//gf.playAnim('cheer', false);
+				trace('pressed at green');
+				//crap1 = 0.9;
 			}
-			else if (!danger1o && !danger2o && !danger3o && danger4o && !danger5o){
-				if (!alreadypressed && redcrap4 && FlxG.keys.pressed.SPACE){
-					decrease = 0.6;
-					alreadypressed = true;
-					shitpopup('shit');
-					gf.playAnim('sad', false);
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap4){
-					decrease = 0.2;
-					alreadypressed = true;
-					shitpopup('good');
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap4){
-					decrease = 0;
-					alreadypressed = true;
-					shitpopup('sick');
-					gf.playAnim('cheer', false);
-				}
-				if (alreadypressed){
-					remove(danger4);
-					danger4o = false;
-					greencrap4 = false;
-					yellowcrap4 = false;
-					redcrap4 = false;
-					alreadypressed = false;
-					healthCheck();
-				}
+		}
+		else if (danger2o){
+			trace('dangerchecktwo');
+			if (!alreadypressed && redcrap2 && FlxG.keys.pressed.SPACE){
+				alreadypressed = true;
+		    	decrease = 1;
+
+		    	shitpopup('shit');
+			//gf.playAnim('sad', false);
+			//crap1 = 2;
 			}
-			else if (!danger1o && !danger2o && !danger3o && !danger4o && danger5o){
-				if (!alreadypressed && redcrap5 && FlxG.keys.pressed.SPACE){
-					decrease = 0.6;
-					alreadypressed = true;
-					shitpopup('shit');
-					gf.playAnim('sad', false);
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap5){
-					decrease = 0.2;
-					alreadypressed = true;
-					shitpopup('good');
-				}
-				else if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap5){
-					decrease = 0;
-					alreadypressed = true;
-					shitpopup('sick');
-					gf.playAnim('cheer', false);
-				}
-				if (alreadypressed){
-					remove(danger5);
-					danger5o = false;
-					greencrap5 = false;
-					yellowcrap5 = false;
-					redcrap5 = false;
-					alreadypressed = false;
-					healthCheck();
-				}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap2){
+				alreadypressed = true;
+				decrease = 0.5;
+
+				shitpopup('good');
+				//crap1 = 1.9;
 			}
-			tmr.reset(0.1);
-		});
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap2){
+				alreadypressed = true;
+				decrease = 0;
+
+				shitpopup('sick');
+				//gf.playAnim('cheer', false);
+			}
+		}
+		else if (danger3o){
+			trace('dangercheckthree');
+			if (!alreadypressed && redcrap3 && FlxG.keys.pressed.SPACE){
+				alreadypressed = true;
+				decrease = 1;
+
+				shitpopup('shit');
+				//gf.playAnim('sad', false);
+			}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap3){
+				alreadypressed = true;
+				decrease = 0.5;
+
+				shitpopup('good');
+			}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap3){
+				alreadypressed = true;
+				decrease = 0;
+
+				shitpopup('sick');
+				//gf.playAnim('cheer', false);
+			}
+		}
+		else if (danger4o){
+			trace('dangercheckfour');
+			if (!alreadypressed && redcrap4 && FlxG.keys.pressed.SPACE){
+				alreadypressed = true;
+				decrease = 1;
+				
+				shitpopup('shit');
+				//gf.playAnim('sad', false);
+			}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap4){
+				alreadypressed = true;
+				decrease = 0.5;
+
+				shitpopup('good');
+			}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap4){
+				alreadypressed = true;
+				decrease = 0;
+
+				shitpopup('sick');
+				gf.playAnim('cheer', false);
+			}
+		}
+		else if (danger5o){
+			if (!alreadypressed && redcrap5 && FlxG.keys.pressed.SPACE){
+				alreadypressed = true;
+				decrease = 1;
+
+				shitpopup('shit');
+				//gf.playAnim('sad', false);
+			}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && yellowcrap5){
+				alreadypressed = true;
+				decrease = 0.5;
+
+				shitpopup('good');
+			}
+			if (!alreadypressed && FlxG.keys.pressed.SPACE && greencrap5){
+				alreadypressed = true;
+				decrease = 0;
+
+				shitpopup('sick');
+				//gf.playAnim('cheer', false);
+			}
+		}
 	}
 	var evencrap:Bool = false;
 	function shitpopup(crap:String){
-		if (evencrap){
-			evencrap = false;
-			remove(crating);
-		}
 		var crating:FlxSprite = new FlxSprite();
 		crating.loadGraphic('assets/images/' + crap + ".png");
 
@@ -3366,6 +3414,10 @@ class PlayState extends MusicBeatState
 		crating.velocity.y -= FlxG.random.int(140, 175);
 		crating.velocity.x -= FlxG.random.int(0, 10);
 		crating.cameras = [camHUD];
+		if (evencrap){
+			evencrap = false;
+			remove(crating);
+		}
 		add(crating);
 		evencrap = true;
 		switch (crap){
@@ -3383,17 +3435,44 @@ class PlayState extends MusicBeatState
 
 	function healthCheck(){
 		dad.playAnim('shoot', false);
-		health -= decrease;
-		decrease = 0;
-		alreadypressed = false;
+		if (decrease != 0){
+		    health -= decrease;
+		}
 		switch (decrease){
+			case 1.05:
+				boyfriend.playAnim('shot', false);
+				gf.playAnim('scared', false);
+				trace('you lose 1.05 health');
+			case 1:
+				boyfriend.playAnim('shot', false);
+				gf.playAnim('scared', false);
+				trace('you lose 1 health');
+			case 0.5:
+				boyfriend.playAnim('dodge', false);
+				gf.playAnim('scared', false);
+				new FlxTimer().start(1, function(e:FlxTimer){
+					boyfriend.playAnim('scared', false);
+					
+				});
+				trace('you lose 0.5 health');
+			case 0:
+				boyfriend.playAnim('dodge', false);
+				gf.playAnim('cheer', false);
+				new FlxTimer().start(1, function(e:FlxTimer){
+					boyfriend.playAnim('hey', false);
+				});
+				trace('you lose 0 health');
+		}
+		decrease = 1.05;
+		alreadypressed = false;
+		/*switch (decrease){
 			case 0.7:
 				boyfriend.playAnim('shot', false);
 				gf.playAnim('scared', false);
-			case 0.6:
+			case 0.65:
 				boyfriend.playAnim('shot', false);
 				gf.playAnim('scared', false);
-			case 0.2:
+			case 0.25:
 				boyfriend.playAnim('dodge', false);
 				gf.playAnim('scared', false);
 				new FlxTimer().start(1, function(e:FlxTimer){
@@ -3405,7 +3484,7 @@ class PlayState extends MusicBeatState
 				new FlxTimer().start(1, function(e:FlxTimer){
 					boyfriend.playAnim('hey', false);
 				});
-		}
+		}*/
 	}
 	function reload(){
 		dad.playAnim('reload', false);
