@@ -97,7 +97,7 @@ class Paths
 
 	inline static public function image(key:String, ?library:String)
 	{
-		return getPath('images/$key.png', IMAGE, library);
+		return 'assets/images/$key';
 	}
 
 	inline static public function font(key:String)
