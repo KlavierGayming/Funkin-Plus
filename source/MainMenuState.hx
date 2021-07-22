@@ -20,14 +20,16 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	
+	var crap:Bool = false;
+	var negative:Bool = false;
 	var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	
 	//var configText:FlxText;
 	//var configSelected:Int = 0;
-	
+	private var camHUD:FlxCamera;
+	private var camGame:FlxCamera;
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', "options", 'gallery'];
 
 	var magenta:FlxSprite;
@@ -38,7 +40,14 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		camGame = new FlxCamera();
+		camHUD = new FlxCamera();
+		camHUD.bgColor.alpha = 0;
+		
+		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camHUD);
 
+		FlxCamera.defaultCameras = [camGame];
 		openfl.Lib.current.stage.frameRate = 144;
 
 		if (!FlxG.sound.music.playing)
@@ -55,6 +64,7 @@ class MainMenuState extends MusicBeatState
 		bg.updateHitbox();
 		bg.screenCenter();
 		bg.antialiasing = true;
+		bg.cameras = [camHUD];
 		add(bg);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
@@ -68,6 +78,7 @@ class MainMenuState extends MusicBeatState
 		magenta.screenCenter();
 		magenta.visible = false;
 		magenta.antialiasing = true;
+		magenta.cameras = [camHUD];
 		add(magenta);
 		// magenta.scrollFactor.set();
 
@@ -119,6 +130,7 @@ class MainMenuState extends MusicBeatState
 		
 		//Offset Stuff
 		Config.reload();
+		crap = true;
 
 		super.create();
 	}
@@ -229,6 +241,7 @@ class MainMenuState extends MusicBeatState
 										trace("options time");
 									case 'gallery':
 										FlxG.switchState(new GalleryState());
+										trace('gallery');
 								}
 							});
 						}
@@ -247,9 +260,19 @@ class MainMenuState extends MusicBeatState
 
 	function changeItem(huh:Int = 0)
 	{
-		
+		if (huh == -1){
+		    negative = true;
+		}
+		if (huh != -1){
+		    negative = false;
+		}
 		curSelected += huh;
-		camFollow.y += Std.int(huh * 5);//idfk
+		if (crap && !negative){
+	    	camFollow.y += Std.int(huh * 5);//idfk
+		}
+		if (crap && negative){
+		    camFollow.y += Std.int(huh * -5);//idfk
+		}
 		//configSelected += huh;
 
 		if (curSelected >= menuItems.length)
