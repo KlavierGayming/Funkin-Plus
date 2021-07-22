@@ -28,7 +28,7 @@ class MainMenuState extends MusicBeatState
 	//var configText:FlxText;
 	//var configSelected:Int = 0;
 	
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', "options"];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', "options", 'gallery'];
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -227,6 +227,8 @@ class MainMenuState extends MusicBeatState
 									case 'options':
 										FlxG.switchState(new ConfigMenu());
 										trace("options time");
+									case 'gallery':
+										FlxG.switchState(new GalleryState());
 								}
 							});
 						}
@@ -245,7 +247,9 @@ class MainMenuState extends MusicBeatState
 
 	function changeItem(huh:Int = 0)
 	{
+		
 		curSelected += huh;
+		camFollow.y += Std.int(huh * 5);//idfk
 		//configSelected += huh;
 
 		if (curSelected >= menuItems.length)
